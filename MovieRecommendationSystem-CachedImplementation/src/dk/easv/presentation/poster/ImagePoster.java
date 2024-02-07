@@ -56,8 +56,16 @@ public class ImagePoster extends VBox implements Resizable {
 
 
     @Override
-    public void resize(int x, int y) {
-        System.out.println(x + y);
+    public void resizeImage(double x, double y) {
+        if(x>=300){
+            double resizableWidth = (WIDTH+x)*0.2;
+            if(resizableWidth>300){
+                return;
+            }
+            double resizableHeight =(HEIGHT+x)*0.2;
+            this.imageView.setFitWidth(resizableWidth);
+            this.imageView.setFitHeight(resizableHeight);
+        }
     }
 
     private void resizeLabel(Label label){

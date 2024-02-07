@@ -4,11 +4,15 @@ import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.logic.LogicManager;
+import dk.easv.presentation.Resizable;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +79,20 @@ public class AppModel {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
 
+    private final DoubleProperty viewPortWidth =  new SimpleDoubleProperty();
+    private final List<Resizable> resizables ;
+
+    public AppModel(){
+        resizables= new ArrayList<>();
+        addChangeListener();
+    }
+
+
+
+    public DoubleProperty getViewPortWidthProperty() {
+        return viewPortWidth;
+    }
+
     public boolean loginUserFromUsername(String userName) {
         User u = logic.getUser(userName);
         obsLoggedInUser.set(u);
@@ -109,4 +127,32 @@ public class AppModel {
     public void rewriteData(){
         logic.rewriteData();
     }
+
+
+
+    private void addChangeListener(){
+        this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
+            Double newSize = (Double)newValue;
+            System.out.println(newSize);
+
+                resizeItems(newSize);
+
+        });
+
+
+    }
+
+    private void resizeItems(Double newSize) {
+        for(Resizable res : resizables){
+            res.resizeImage(newSize,0);
+        }
+    }
+
+    public void addResizable(Resizable resizable){
+        this.resizables.add(resizable);
+    }
 }
+
+
+
+

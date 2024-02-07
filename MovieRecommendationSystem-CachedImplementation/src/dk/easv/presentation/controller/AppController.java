@@ -2,6 +2,8 @@ package dk.easv.presentation.controller;
 import dk.easv.entities.*;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.poster.ImagePoster;
+import dk.easv.presentation.poster.ImagesControl;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +23,7 @@ public class AppController implements Initializable {
 //    private ListView<UserSimilarity> lvTopSimilarUsers;
 //    @FXML
 //    private ListView<TopMovie> lvTopFromSimilar;
-    String placeholder = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholder.png";
+    //String placeholder = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholder.png";
     @FXML
     private HBox postersParent;
     private AppModel model;
@@ -29,7 +31,7 @@ public class AppController implements Initializable {
     private String timerMsg = "";
     @FXML
     private ScrollPane scrollPaneFirstPoster;
-
+private ImagesControl imagesControl;
 
 
     private void startTimer(String message) {
@@ -57,6 +59,7 @@ public class AppController implements Initializable {
         model.loadUsers();
         stopTimer();
         model.loadData(model.getObsLoggedInUser());
+        imagesControl=new ImagesControl(model.getObsTopMoviesSimilarUsers());
         /*lvUsers.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldUser, selectedUser) -> {
                     startTimer("Loading all data for user: " + selectedUser);
@@ -67,12 +70,8 @@ public class AppController implements Initializable {
         //lvUsers.getSelectionModel().select(model.getObsLoggedInUser());
 
 
-
-
-
-
-
-   loadImages();
+        initializeWidthListener(model);
+        loadImages();
      //   modifyData();
         /**  this was used for retrieving data from the tmdb api*/
 //        try {
@@ -108,6 +107,16 @@ public class AppController implements Initializable {
 //        }
     }
 
+
+/** Ads a listener to the ScrollPane that will update the model viewPort variable, that controls the images resizing
+ * @param model represents the model that is holding the observable var
+ * */
+    private void initializeWidthListener(AppModel model) {
+        scrollPaneFirstPoster.viewportBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            model.getViewPortWidthProperty().set(newValue.getWidth());
+        });
+    }
+
     private static void writeMovies(AppModel model, List<MovieData> movies) {
         System.out.println(movies.size());
         System.out.println(movies.get(0));
@@ -115,9 +124,12 @@ public class AppController implements Initializable {
         //model.saveData(movies);
     }
 
+    /**Loads initial movies to the scrollPane
+     * */
     private void loadImages() {
-        for (TopMovie top : model.getObsTopMoviesSimilarUsers()) {
+        for (TopMovie top : imagesControl.getNextBatchMovies()) {
             ImagePoster imagePoster = new ImagePoster(top.getMovie().getTitle(), top.getMovie().getAverageRating(),top.getMovie().getImageUrl());
+            model.addResizable(imagePoster);
             postersParent.getChildren().add(imagePoster);
         }
     }
@@ -125,20 +137,22 @@ public class AppController implements Initializable {
 model.rewriteData();
     }
 
+    /**Moves the scrollPane view to the left */
     public void toTheLeft(ActionEvent event) {
         double viewportWidth = this.scrollPaneFirstPoster.getViewportBounds().getWidth();
         double contentWidth = this.scrollPaneFirstPoster.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
-        double moveInPixels = 400;
-        double moveNormalized = moveInPixels / (contentWidth - viewportWidth);
+        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
         double newHvalue = Math.max(0.0, this.scrollPaneFirstPoster.getHvalue() - moveNormalized);
         this.scrollPaneFirstPoster.setHvalue(newHvalue);
     }
 
+
+    /**Moves the scrollPane to the right and loads the next images from the  movie list*/
     public void toTheRight(ActionEvent event) {
+        loadImages();
         double viewportWidth = this.scrollPaneFirstPoster.getViewportBounds().getWidth();
         double contentWidth = this.scrollPaneFirstPoster.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
-        double moveInPixels = 400;
-        double moveNormalized = moveInPixels / (contentWidth - viewportWidth);
+        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
         double newHvalue = Math.min(1.0, Math.max(0.0, this.scrollPaneFirstPoster.getHvalue() + moveNormalized));
         this.scrollPaneFirstPoster.setHvalue(newHvalue);
     }
