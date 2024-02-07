@@ -7,11 +7,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="300.0" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.AppController">
+<ScrollPane fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="300.0" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.AppController">
    <content>
       <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
-            <HBox fx:id="BigPictures" alignment="CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: b;" />
+            <HBox fx:id="BigPictures" alignment="CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: b;">
+               <children>
+                  <StackPane fx:id="landingStackPane" />
+               </children></HBox>
             <HBox fx:id="sennMovies" alignment="CENTER" prefHeight="400.0" prefWidth="1100.0" spacing="10.0" style="-fx-background-color: #141313;">
                <children>
                   <StackPane prefHeight="400.0" prefWidth="1100.0" style="-fx-background-color: #141313;" HBox.hgrow="ALWAYS">
