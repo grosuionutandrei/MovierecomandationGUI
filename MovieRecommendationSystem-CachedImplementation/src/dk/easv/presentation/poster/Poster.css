@@ -1,0 +1,14 @@
+.poster{
+-fx-alignment: center;
+
+}
+.label{
+    -fx-background-color: #141313;
+    -fx-text-fill: #d21111;
+    -fx-text-alignment: center;
+    -fx-pref-width: 150;
+}
+.postersParent{
+    -fx-background-color: #141313;
+    -fx-spacing: 10;
+}
