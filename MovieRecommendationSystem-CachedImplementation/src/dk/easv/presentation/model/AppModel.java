@@ -116,32 +116,16 @@ public class AppModel {
         return logic.getAllResponses(nameProcessed,yearProcessed);
     }
 
-//    public Map<Integer,MovieData> getData(){
-//        return logic.getAllMovieData();
-//    }
-/**used to save data with url*/
-//    public void saveData(List<MovieData> alldata){
-//        logic.saveData(alldata);
-//    }
-
     public void rewriteData(){
         logic.rewriteData();
     }
 
-
-
     private void addChangeListener(){
         this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
             Double newSize = (Double)newValue;
-            System.out.println(newSize);
-
                 resizeItems(newSize);
-
         });
-
-
     }
-
     private void resizeItems(Double newSize) {
         for(Resizable res : resizables){
             res.resizeImage(newSize,0);

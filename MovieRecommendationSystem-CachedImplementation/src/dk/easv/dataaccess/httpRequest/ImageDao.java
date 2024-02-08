@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 public class ImageDao {
     private SimpleObjectProperty<Image> imageProperty ;
     //private String defaultImagePath ="file:///D:///computer_science/sco/MediPlayer/MovieReloaded/src/resources/default-movie.png";
-    private String defaultImageUrl="https://ibb.co/F8J7v0z";
+ //   private String defaultImageUrl="https://ibb.co/F8J7v0z";
     private String noImageUrl = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholder.png";
 private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/default.png";
     public ImageDao()

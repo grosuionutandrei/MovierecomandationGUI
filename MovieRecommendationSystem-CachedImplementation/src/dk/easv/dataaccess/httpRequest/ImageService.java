@@ -13,6 +13,7 @@ public class ImageService extends Service<Image> {
 
     @Override
     protected Task<Image> createTask() {
+
         return  new Task<Image>() {
             @Override
             protected Image call() throws Exception {
