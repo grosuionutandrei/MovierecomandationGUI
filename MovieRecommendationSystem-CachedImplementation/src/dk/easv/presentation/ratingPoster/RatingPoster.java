@@ -1,6 +1,4 @@
 package dk.easv.presentation.ratingPoster;
-
-import io.github.palexdev.materialfx.controls.base.MFXLabeled;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

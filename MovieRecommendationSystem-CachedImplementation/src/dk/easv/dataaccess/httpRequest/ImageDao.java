@@ -30,11 +30,8 @@ private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie
              Image image =  finalImageService.getValue();
              imageProperty.set(image);
             imageView.imageProperty().bind(imageProperty);
-            // You can now use the image in your application, e.g., display it in an ImageView
         });
         imageService.setOnFailed(e -> {
-            // This is called if the image download fails
-          //  ExceptionHandler.displayErrorAlert(imageService.getException().toString(),"Image error");
 
             imageProperty.set(new Image(defaultImage));
         });
