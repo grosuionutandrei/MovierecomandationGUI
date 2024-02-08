@@ -1,7 +1,9 @@
 package dk.easv.dataaccess.apiRequest.transcripts;
 public class MovieSearchResponse {
     private int id;
-  private String poster_path;
+    private String poster_path;
+
+    private String backdrop_path;
     private String overview;
     private String title;
 
@@ -18,6 +20,7 @@ public class MovieSearchResponse {
         return "MovieSearchResponse{" +
                 "id=" + id +
                 ", poster_path='" + poster_path + '\'' +
+                ", backdrop_path='" + backdrop_path + '\'' +
                 ", overview='" + overview + '\'' +
                 ", title='" + title + '\'' +
                 '}';
@@ -45,5 +48,13 @@ public class MovieSearchResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getbackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setbackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
     }
 }
