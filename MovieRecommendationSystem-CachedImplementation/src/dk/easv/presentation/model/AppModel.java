@@ -116,6 +116,12 @@ public class AppModel {
         return logic.getAllResponses(nameProcessed,yearProcessed);
     }
 
+    /** Used for getting data for landing poster */
+    public List<MovieSearchResponse> getResults(String name) throws MoviesException {
+        String nameProcessed = processQuery(name);
+        return logic.getAllResponses(nameProcessed);
+    }
+
     public void rewriteData(){
         logic.rewriteData();
     }

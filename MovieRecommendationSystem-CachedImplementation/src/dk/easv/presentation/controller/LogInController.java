@@ -1,6 +1,7 @@
 package dk.easv.presentation.controller;
 
 import dk.easv.entities.User;
+import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.model.AppModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +45,8 @@ public class LogInController implements Initializable {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load App.fxml");
             alert.showAndWait();
+        } catch (MoviesException e) {
+            throw new RuntimeException(e);
         }
 
         }

@@ -1,4 +1,5 @@
 package dk.easv.presentation.poster;
+import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.httpRequest.ImageDao;
 import dk.easv.entities.MovieData;
 import dk.easv.entities.TopMovie;
@@ -17,6 +18,9 @@ import javafx.scene.layout.VBox;
 public class ImagePoster extends VBox implements Resizable {
     private final int WIDTH = 200;
     private final int HEIGHT = 250;
+
+    private final int Poster_WIDTH = 1100;
+    private final int Poster_HEIGHT = 600;
     @FXML
     private Label title;
     @FXML
@@ -25,6 +29,8 @@ public class ImagePoster extends VBox implements Resizable {
     private RatingPoster ratingContainer;
     private Dimensions dimensions = Dimensions.getInstance(WIDTH, HEIGHT);
     private StackPane posterStack;
+
+    /** Loads small size image posters */
 
     public ImagePoster(MovieData movieData) {
         super();
@@ -46,6 +52,22 @@ public class ImagePoster extends VBox implements Resizable {
         this.getChildren().addAll( posterStack);
     }
 
+
+    /** Used for getting data for landing poster */
+    public ImagePoster(MovieSearchResponse movieSearchResponse, Boolean isLandingPoster) {
+        super();
+
+        this.imageView = new ImageView();
+        ImageDao imageDao = new ImageDao();
+        imageDao.getImage(this.imageView, movieSearchResponse.getbackdrop_path(), true);
+        // Commented out for later on when we want to set resizable for landing poster
+//        setLandingPosterDimensions(dimensions.getWidth(), dimensions.getHeight());
+        setLandingPosterDimensions(Poster_WIDTH, Poster_HEIGHT);
+
+        this.getChildren().addAll(this.imageView);
+    }
+
+
     public void replaceImage(Image image) {
         this.imageView.setImage(image);
     }
@@ -55,6 +77,12 @@ public class ImagePoster extends VBox implements Resizable {
         this.imageView.setFitWidth(width);
         this.imageView.setFitHeight(height);
         this.imageView.setPreserveRatio(false);
+    }
+
+    public void setLandingPosterDimensions(double width, double height){
+        this.imageView.setFitWidth(width);
+        this.imageView.setFitHeight(height);
+        this.imageView.setPreserveRatio(true);
     }
 
     @Override

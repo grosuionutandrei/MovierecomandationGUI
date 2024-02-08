@@ -19,7 +19,6 @@ public class ImagesControl {
 
     private List<TopMovie> getNextBatch() {
         List<TopMovie> movie = new ArrayList<>();
-
         if (this.counter <= this.topMovies.size()) {
             movie = this.topMovies.subList(counter, Math.min((counter + batch), this.topMovies.size()));
             counter += batch;

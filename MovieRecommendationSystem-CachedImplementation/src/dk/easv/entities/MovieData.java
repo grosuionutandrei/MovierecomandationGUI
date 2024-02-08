@@ -11,12 +11,27 @@ public class MovieData {
     private int year;
     private List<Rating> ratings;
     private String imageUrl;
+
+
+
+    private String backdropUrl;
     private int tmdbId;
     public MovieData(int id, String title, int year, String imageUrl, int tmdbId) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.imageUrl=imageUrl;
+        this.tmdbId= tmdbId;
+        this.ratings = new ArrayList<>();
+    }
+
+
+    public MovieData(int id, String title, int year, String imageUrl, String backdropUrl, int tmdbId) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.imageUrl=imageUrl;
+        this.backdropUrl = backdropUrl;
         this.tmdbId= tmdbId;
         this.ratings = new ArrayList<>();
     }
@@ -64,6 +79,14 @@ public class MovieData {
     }
     public List<Rating> getRatings() {
         return ratings;
+    }
+
+    public String getBackdropUrl() {
+        return backdropUrl;
+    }
+
+    public void setBackdropUrl(String backdropUrl) {
+        this.backdropUrl = backdropUrl;
     }
     public double getAverageRating(){
         double sum = 0;

@@ -1,5 +1,7 @@
 package dk.easv.presentation.controller;
+import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
+import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.poster.Dimensions;
 import dk.easv.presentation.poster.ImagePoster;
@@ -11,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+
 import java.net.URL;
 import java.util.*;
 
@@ -25,6 +29,9 @@ public class AppController implements Initializable {
     @FXML
     private ScrollPane scrollPaneFirstPoster;
     private ImagesControl imagesControl;
+
+    @FXML
+    private StackPane landingPosterStackPane;
 
     private boolean isRightPressed= false;
 
@@ -42,7 +49,7 @@ public class AppController implements Initializable {
 
     }
 
-    public void setModel(AppModel model) {
+    public void setModel(AppModel model) throws MoviesException {
         this.model = model;
         startTimer("Load users");
         model.loadUsers();
@@ -52,6 +59,8 @@ public class AppController implements Initializable {
         initializeWidthListener(model);
         loadImages();
         bindButtonsToResize();
+
+        loadLandingPoster();
     }
 
 
@@ -127,6 +136,17 @@ model.rewriteData();
         this.rightButton.setVisible(false);
         this.leftButton.setVisible(false);
     }
+
+    public void loadLandingPoster() throws MoviesException {
+        TopMovie topMovie = imagesControl.getNextBatchMovies().get(0);
+        MovieData movieData = topMovie.getMovie();
+        List<MovieSearchResponse> movieTitles = model.getResults(movieData.getTitle());
+        MovieSearchResponse movieSearchResponse = movieTitles.getFirst();
+        ImagePoster imagePoster = new ImagePoster(movieSearchResponse, true );
+        landingPosterStackPane.getChildren().add(imagePoster);
+        System.out.println(movieSearchResponse.getbackdrop_path());
+    }
+
 }
 
 

@@ -2,6 +2,8 @@ package dk.easv.logic;
 
 import dk.easv.dataaccess.DataAccessManager;
 import dk.easv.dataaccess.apiRequest.Search;
+import dk.easv.dataaccess.apiRequest.services.*;
+
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
@@ -14,6 +16,8 @@ public class LogicManager {
 
     DataAccessManager dataMgr = new DataAccessManager();
     Search search = new Search();
+
+    MultiSearch multiSearch = new MultiSearch();
 
     public void reloadAllDataFromStorage(){
         dataMgr.updateCacheFromDisk();
@@ -130,6 +134,13 @@ public class LogicManager {
     public List<MovieSearchResponse> getAllResponses(String name,String year) throws MoviesException {
         return search.movieResponses(name,year);
     }
+
+
+    /** Used for getting data for landing poster */
+    public List<MovieSearchResponse> getAllResponses(String name) throws MoviesException {
+        return multiSearch.parseResponse(name);
+    }
+
     public String processQuerry(String text) {
         return URLEncoder.encode(text, StandardCharsets.UTF_8);
     }
