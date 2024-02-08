@@ -41,6 +41,7 @@ public class ImagePoster extends VBox implements Resizable {
 //        RatingPoster ratingPoster = new RatingPoster(rating);
 //        ratingContainer = new HBox(ratingPoster.getRating());
         this.ratingContainer=new RatingPoster(movieData.getAverageRating(),movieData.getTitle(),dimensions.getWidth(),dimensions.getHeight());
+        System.out.println(this.ratingContainer.getChildren().size());
         this.posterStack.getChildren().add(this.imageView);
         this.posterStack.getChildren().add(ratingContainer);
         this.getChildren().addAll( posterStack);

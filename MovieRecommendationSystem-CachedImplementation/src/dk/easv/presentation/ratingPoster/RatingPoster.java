@@ -19,11 +19,12 @@ public class RatingPoster extends VBox {
         this.movieTitle = new Label(title);
         this.rating = new Label(String.valueOf(rating));
         this.playButtons = new HBox();
-        this.getStylesheets().add("RatingPoster.css");
+        this.getStylesheets().add("./RatingPoster.css");
         this.getStyleClass().add("customInfo");
         this.setPrefWidth(width);
         this.setPrefHeight(height);
         this.setAlignment(Pos.BOTTOM_CENTER);
-        System.out.println("I am ");
+        this.setVisible(true);
+        this.getChildren().addAll(movieTitle,this.rating,playButtons);
     }
 }
