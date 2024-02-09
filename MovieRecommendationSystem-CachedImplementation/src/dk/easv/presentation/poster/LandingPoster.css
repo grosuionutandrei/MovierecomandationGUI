@@ -1,0 +1,29 @@
+.watch-online-button {
+    -fx-border-color: #024B64FF;
+    -fx-background-color: #024B64FF;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 5; /* Padding between border and content */
+}
+
+.watch-online-button:hover {
+    -fx-border-color: #024B64FF;
+    -fx-background-color: #024258;
+    -fx-text-fill: white;
+}
+
+
+.more-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #024B64FF; /* Thin black border */
+    -fx-border-width: 1; /* Border width */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 5; /* Padding between border and content */
+}
+
+.more-button:hover {
+    -fx-background-color: #024b64; /* Red background on hover */
+
+}
