@@ -1,0 +1,9 @@
+.stackPaneParent{
+    /*-fx-border-color: pink;*/
+}
+.groupParent{
+    /*-fx-border-color: purple;*/
+}
+.scrollPaneParent{
+    -fx-border-color: orange;
+}

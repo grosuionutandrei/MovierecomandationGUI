@@ -13,11 +13,11 @@
       <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
             <HBox fx:id="BigPictures" alignment="CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #141313;" />
-            <HBox fx:id="sennMovies" alignment="CENTER" spacing="10.0" style="-fx-background-color: #141313;">
+            <HBox fx:id="posterRootParent" alignment="CENTER" spacing="10.0" style="-fx-background-color: #141313;" styleClass="groupParent" stylesheets="@Main.css">
                <children>
-                  <StackPane onMouseEntered="#showButtons" onMouseExited="#hideButtons" style="-fx-background-color: #141313;" HBox.hgrow="ALWAYS">
+                  <StackPane onMouseEntered="#showButtons" onMouseExited="#hideButtons" style="-fx-background-color: #141313;" styleClass="stackPaneParent" HBox.hgrow="ALWAYS">
                      <children>
-                        <ScrollPane fx:id="scrollPaneFirstPoster" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #141313;" vbarPolicy="NEVER" StackPane.alignment="CENTER">
+                        <ScrollPane fx:id="scrollPaneFirstPoster" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #141313;" styleClass="scrollPaneParent" vbarPolicy="NEVER" StackPane.alignment="CENTER">
                            <content>
                               <HBox fx:id="postersParent" alignment="CENTER" style="-fx-background-color: #141313;" styleClass="postersParent" stylesheets="@../poster/Poster.css" />
                            </content>

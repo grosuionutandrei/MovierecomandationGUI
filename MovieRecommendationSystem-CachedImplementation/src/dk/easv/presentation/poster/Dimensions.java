@@ -10,7 +10,6 @@ public class Dimensions {
     public static Dimensions getInstance(double width,double height){
      if(instance==null){
          instance= new Dimensions(width,height);
-
      }
      return instance;
     }

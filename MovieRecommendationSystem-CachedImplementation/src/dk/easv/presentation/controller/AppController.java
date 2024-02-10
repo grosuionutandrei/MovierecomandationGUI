@@ -18,7 +18,10 @@ public class AppController implements Initializable {
     public MFXButton rightButton;
     public MFXButton leftButton;
     @FXML
+    private HBox posterRootParent;
+    @FXML
     private HBox postersParent;
+
     private AppModel model;
     private long timerStartMillis = 0;
     private String timerMsg = "";
@@ -52,6 +55,8 @@ public class AppController implements Initializable {
         initializeWidthListener(model);
         loadImages();
         bindButtonsToResize();
+        postersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        posterRootParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
     }
 
 
@@ -64,12 +69,6 @@ public class AppController implements Initializable {
         });
     }
 
-    private static void writeMovies(AppModel model, List<MovieData> movies) {
-        System.out.println(movies.size());
-        System.out.println(movies.get(0));
-        System.out.println("i am here");
-        //model.saveData(movies);
-    }
 
     /**Loads initial movies to the scrollPane
      * */

@@ -1,3 +1,26 @@
 .customInfo{
-    -fx-background-color: red;
+    -fx-background-color: #141313;
+    -fx-opacity: 0.9;
+    /*-fx-border-color:red;*/
 }
+.label{
+    -fx-text-fill:#f06071;
+    -fx-opacity: 1;
+    -fx-font-family: Arial;
+    -fx-alignment: center-left;
+    -fx-wrap-text: false;
+    -fx-text-overrun: ellipsis;
+}
+.playButton{
+    -fx-background-color: #00c9c8;
+    -fx-text-fill:#141313;
+    -fx-border-color:  #00c9c8;
+    -fx-border-radius: 10%;
+    -mfx-ripple-radius: 25;
+    -mfx-ripple-color:#00c9c8;
+    -mfx-auto-clip: true;
+    -fx-opacity: 1;
+
+}
+
+

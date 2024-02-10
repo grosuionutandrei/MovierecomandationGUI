@@ -18,6 +18,7 @@ private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie
     public void getImage(ImageView imageView,String imagePath){
         String path = "https://image.tmdb.org/t/p/w300";
         ImageService imageService = null;
+
         if(imagePath.startsWith("default")){
             imageService=new ImageService(noImageUrl);
         }else{
@@ -32,8 +33,7 @@ private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie
             imageView.imageProperty().bind(imageProperty);
         });
         imageService.setOnFailed(e -> {
-
-            imageProperty.set(new Image(defaultImage));
+            imageProperty.set(new Image(noImageUrl));
         });
         imageService.start();
     }
