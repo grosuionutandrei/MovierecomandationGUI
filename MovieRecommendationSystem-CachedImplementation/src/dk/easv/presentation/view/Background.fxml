@@ -22,7 +22,7 @@
                               <HBox fx:id="postersParent" alignment="CENTER" style="-fx-background-color: #141313;" styleClass="postersParent" stylesheets="@../poster/Poster.css" />
                            </content>
                         </ScrollPane>
-                        <MFXButton fx:id="rightButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" onAction="#toTheRight" opacity="0.5" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&gt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                        <MFXButton fx:id="rightButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" onAction="#toTheRight" opacity="0.49" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&gt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
                            <font>
                               <Font name="Arial Bold" size="24.0" />
                            </font>
@@ -30,7 +30,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton fx:id="leftButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#toTheLeft" opacity="0.5" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&lt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_LEFT">
+                        <MFXButton fx:id="leftButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#toTheLeft" opacity="0.49" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&lt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_LEFT">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

@@ -30,9 +30,9 @@ public class RatingPoster extends VBox {
     }
 
     private void setPreMaxDimensions(Dimensions dimensions) {
-        this.setPrefWidth(dimensions.getWidth()-10);
+        this.setPrefWidth(dimensions.getWidth());
         this.setPrefHeight(dimensions.getHeight()/2);
-        this.setMaxWidth(dimensions.getWidth()-10);
+        this.setMaxWidth(dimensions.getWidth());
         this.setMaxHeight(dimensions.getHeight()/2);
     }
 
