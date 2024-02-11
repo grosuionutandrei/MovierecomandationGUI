@@ -138,8 +138,9 @@ model.rewriteData();
     }
 
     public void loadLandingPoster() throws MoviesException {
-        TopMovie topMovie = imagesControl.getNextBatchMovies().get(0);
+        TopMovie topMovie = imagesControl.getNextBatchMovies().get(3);
         MovieData movieData = topMovie.getMovie();
+        System.out.println(movieData.getTitle());
         List<MovieSearchResponse> movieTitles = model.getResults(movieData.getTitle());
         MovieSearchResponse movieSearchResponse = movieTitles.getFirst();
         ImagePoster imagePoster = new ImagePoster(movieSearchResponse, true );

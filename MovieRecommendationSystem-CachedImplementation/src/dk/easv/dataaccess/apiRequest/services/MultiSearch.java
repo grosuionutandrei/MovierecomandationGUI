@@ -5,15 +5,15 @@ import dk.easv.dataaccess.ACCESS;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.apiRequest.transcripts.SearchResponse;
 import dk.easv.exceptions.MoviesException;
-
+import java.io.UnsupportedEncodingException;
+import java.net.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class MultiSearch
 {
@@ -25,10 +25,11 @@ public class MultiSearch
         // Sending HTTP Request to API
         try {
             httpRequest = HttpRequest.newBuilder()
-                    .uri(new URI(buildURL(query)))
+                    .uri(new URL(buildURL(query)).toURI())
                     .header("Authorization", ACCESS.TMDB_KEY.getValue())
-                    .GET().build();
-        } catch (URISyntaxException e) {
+                    .GET().build()
+                    ;
+        } catch (URISyntaxException | UnsupportedEncodingException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
         // Parsing incoming response as json
@@ -56,9 +57,10 @@ public class MultiSearch
 
 
     /** Build URL from query which is our movie/series name */
-    private String buildURL(String query)
-    {
-        return baseURL + query + "&page=1";
+    public String buildURL(String query) throws UnsupportedEncodingException {
+        // We need to encode URL for in order to get proper results for queries which contains whitespace and special chars.
+        String encodedQuery = URLEncoder.encode(query, "UTF-8");
+        return baseURL + encodedQuery;
     }
 
 

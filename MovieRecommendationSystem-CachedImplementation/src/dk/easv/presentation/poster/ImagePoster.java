@@ -107,12 +107,15 @@ public class ImagePoster extends VBox implements Resizable {
         Label titleLabel = new Label(movieSearchResponse.getTitle());
         titleLabel.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, 50));
         titleLabel.setStyle("-fx-text-fill: #ddd7d7");
+        System.out.println(movieSearchResponse.toString());
+
 
         // set description label for landing poster
         Label descLabel = new Label(movieSearchResponse.getOverview());
         descLabel.setFont(Font.font("Hack", FontWeight.BOLD, 17));
         descLabel.setStyle("-fx-text-fill: #a1a1a1");
         descLabel.setMaxWidth(400);
+        descLabel.setMaxHeight(100);
         descLabel.setWrapText(true);
 
         /* HBox for buttons */

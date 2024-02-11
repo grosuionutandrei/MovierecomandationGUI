@@ -2,7 +2,7 @@ package dk.easv.dataaccess.apiRequest.transcripts;
 public class MovieSearchResponse {
     private int id;
     private String poster_path;
-
+    private String name;
     private String backdrop_path;
     private String overview;
     private String title;
@@ -47,6 +47,9 @@ public class MovieSearchResponse {
     }
 
     public void setTitle(String title) {
+        if (title == null){
+            this.title = getName();
+        }
         this.title = title;
     }
 
@@ -55,6 +58,22 @@ public class MovieSearchResponse {
     }
 
     public void setbackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
         this.backdrop_path = backdrop_path;
     }
 }

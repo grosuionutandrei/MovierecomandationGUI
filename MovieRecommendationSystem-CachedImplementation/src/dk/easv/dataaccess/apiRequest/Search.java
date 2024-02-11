@@ -21,7 +21,6 @@ public class Search {
     String page = "&page=1";
 
     private SearchResponse searchRequest(String name,String year ) throws MoviesException {
-        System.out.println(baseUrl + name + endUrl + releaseYear + year +page);
         SearchResponse searchResponse;
         HttpRequest getRequest = null;
         try {
@@ -39,7 +38,6 @@ public class Search {
         } catch (IOException | InterruptedException e) {
             throw new MoviesException(e.getMessage());
         }
-        System.out.println(searchResponse.getTotal_results());
         return searchResponse;
     }
 
