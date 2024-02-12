@@ -2,7 +2,6 @@ package dk.easv.presentation.poster;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.httpRequest.ImageDao;
 import dk.easv.entities.MovieData;
-import dk.easv.entities.TopMovie;
 import dk.easv.presentation.Resizable;
 import dk.easv.presentation.ratingPoster.RatingPoster;
 import javafx.fxml.FXML;
@@ -73,13 +72,12 @@ public class ImagePoster extends VBox implements Resizable {
 
         this.imageView = new ImageView();
         ImageDao imageDao = new ImageDao();
-        imageDao.getImage(this.imageView, movieSearchResponse.getbackdrop_path(), true);
+        imageDao.getImage(this.imageView, movieSearchResponse.getBackdrop_path(), true);
         /** Commented out for later on when we want to set resizable for landing poster */
 //        imageView.fitWidthProperty().bind(innerStackPane.widthProperty());
 //        imageView.fitHeightProperty().bind(innerStackPane.heightProperty());
 //
         setLandingPosterDimensions(landingPosterDimensions.getWidth(), landingPosterDimensions.getHeight());
-        System.out.println(landingPosterDimensions.getWidth() + " and " + landingPosterDimensions.getHeight());
 //        setLandingPosterDimensions(Poster_WIDTH, Poster_HEIGHT);
 
 
@@ -107,7 +105,6 @@ public class ImagePoster extends VBox implements Resizable {
         Label titleLabel = new Label(movieSearchResponse.getTitle());
         titleLabel.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, 50));
         titleLabel.setStyle("-fx-text-fill: #ddd7d7");
-        System.out.println(movieSearchResponse.toString());
 
 
         // set description label for landing poster

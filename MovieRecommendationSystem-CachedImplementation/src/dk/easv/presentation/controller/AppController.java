@@ -2,6 +2,7 @@ package dk.easv.presentation.controller;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
+import dk.easv.presentation.LandingPoster.LandingImageController;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.poster.Dimensions;
 import dk.easv.presentation.poster.ImagePoster;
@@ -29,6 +30,7 @@ public class AppController implements Initializable {
     @FXML
     private ScrollPane scrollPaneFirstPoster;
     private ImagesControl imagesControl;
+    private LandingImageController landingImageController;
 
     @FXML
     private StackPane landingPosterStackPane;
@@ -56,6 +58,7 @@ public class AppController implements Initializable {
         stopTimer();
         model.loadData(model.getObsLoggedInUser());
         imagesControl=new ImagesControl(model.getObsTopMoviesSimilarUsers());
+        landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
         initializeWidthListener(model);
         loadImages();
         bindButtonsToResize();
@@ -73,12 +76,6 @@ public class AppController implements Initializable {
         });
     }
 
-    private static void writeMovies(AppModel model, List<MovieData> movies) {
-        System.out.println(movies.size());
-        System.out.println(movies.get(0));
-        System.out.println("i am here");
-        //model.saveData(movies);
-    }
 
     /**Loads initial movies to the scrollPane
      * */
@@ -138,14 +135,9 @@ model.rewriteData();
     }
 
     public void loadLandingPoster() throws MoviesException {
-        TopMovie topMovie = imagesControl.getNextBatchMovies().get(3);
-        MovieData movieData = topMovie.getMovie();
-        System.out.println(movieData.getTitle());
-        List<MovieSearchResponse> movieTitles = model.getResults(movieData.getTitle());
-        MovieSearchResponse movieSearchResponse = movieTitles.getFirst();
-        ImagePoster imagePoster = new ImagePoster(movieSearchResponse, true );
+        List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
+        ImagePoster imagePoster = new ImagePoster(movieData.getFirst(), true );
         landingPosterStackPane.getChildren().add(imagePoster);
-        System.out.println(movieSearchResponse.getbackdrop_path());
     }
 
 }

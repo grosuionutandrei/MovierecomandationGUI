@@ -19,10 +19,10 @@ public class MovieSearchResponse {
     public String toString() {
         return "MovieSearchResponse{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", poster_path='" + poster_path + '\'' +
                 ", backdrop_path='" + backdrop_path + '\'' +
                 ", overview='" + overview + '\'' +
-                ", title='" + title + '\'' +
                 '}';
     }
 
@@ -47,33 +47,19 @@ public class MovieSearchResponse {
     }
 
     public void setTitle(String title) {
-        if (title == null){
-            this.title = getName();
-        }
         this.title = title;
-    }
-
-    public String getbackdrop_path() {
-        return backdrop_path;
-    }
-
-    public void setbackdrop_path(String backdrop_path) {
-        this.backdrop_path = backdrop_path;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getBackdrop_path() {
         return backdrop_path;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
-    public void setBackdrop_path(String backdrop_path) {
-        this.backdrop_path = backdrop_path;
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -12,8 +12,6 @@ public class MovieData {
     private List<Rating> ratings;
     private String imageUrl;
 
-
-
     private String backdropUrl;
     private int tmdbId;
     public MovieData(int id, String title, int year, String imageUrl, int tmdbId) {
