@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="videoPlayerContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #141313;" stylesheets="@PlayWindow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.components.playwindow.PlayWindowController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" maxHeight="20.0" prefHeight="20.0" styleClass="closeContainer" VBox.vgrow="ALWAYS">
+         <children>
+            <MFXButton buttonType="RAISED" onAction="#closePlayWindow" rippleColor="#f06071" style="-fx-background-color: #141313; -fx-text-fill: #f06071; -fx-border-color: #f06071; -fx-border-radius: 10%; -fx-border: 2;" text="X" textFill="#f06071" />
+         </children>
+      </HBox>
+      <HBox fx:id="embedContainer" alignment="CENTER" style="-fx-background-color: #141313;" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

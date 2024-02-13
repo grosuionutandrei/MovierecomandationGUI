@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -13,6 +14,15 @@
       <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
             <HBox fx:id="BigPictures" alignment="CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #141313;" />
+            <HBox fx:id="categoryTitle" prefHeight="25.0" prefWidth="1086.0" style="-fx-border-color: red;">
+               <children>
+                  <Label text="Unseen movies" textFill="#d3fbd8">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <HBox fx:id="posterRootParent" alignment="CENTER" spacing="10.0" style="-fx-background-color: #141313;" styleClass="groupParent" stylesheets="@Main.css">
                <children>
                   <StackPane onMouseEntered="#showButtons" onMouseExited="#hideButtons" style="-fx-background-color: #141313;" styleClass="stackPaneParent" HBox.hgrow="ALWAYS">
@@ -44,6 +54,7 @@
             </HBox>
             <HBox fx:id="topMoviesRecomandation" prefHeight="400.0" prefWidth="1100.0" />
             <HBox fx:id="averageMoviesRecomandation" prefHeight="400.0" prefWidth="1100.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
    </content>

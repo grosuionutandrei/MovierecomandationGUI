@@ -3,8 +3,11 @@ package dk.easv.logic;
 import dk.easv.dataaccess.DataAccessManager;
 import dk.easv.dataaccess.apiRequest.Search;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
+import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
+import dk.easv.dataaccess.httpRequest.MediaDao;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
+import javafx.scene.layout.HBox;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +17,7 @@ public class LogicManager {
 
     DataAccessManager dataMgr = new DataAccessManager();
     Search search = new Search();
+    MediaDao mediaDao =  new MediaDao();
 
     public void reloadAllDataFromStorage(){
         dataMgr.updateCacheFromDisk();
@@ -143,4 +147,7 @@ public class LogicManager {
     }
 
 
+    public void getMediaToBePlayed(VideoData videoData, HBox embededContainer, int[]dimensions) {
+        mediaDao.getMedia(videoData.getSite(), embededContainer, videoData.getKey(), dimensions[0],dimensions[1]);
+    }
 }

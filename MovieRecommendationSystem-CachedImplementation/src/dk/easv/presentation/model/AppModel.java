@@ -1,24 +1,27 @@
 package dk.easv.presentation.model;
 
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
+import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.logic.LogicManager;
-import dk.easv.presentation.Resizable;
+import dk.easv.logic.ViewLogic;
+import dk.easv.presentation.listeners.Resizable;
+import dk.easv.presentation.listeners.Displayable;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class AppModel {
 
     LogicManager logic = new LogicManager();
+    ViewLogic  viewLogic =  new ViewLogic();
     // Models of the data in the view
     private final ObservableList<User>  obsUsers = FXCollections.observableArrayList();
     private final ObservableList<MovieData> obsTopMovieSeen = FXCollections.observableArrayList();
@@ -27,6 +30,9 @@ public class AppModel {
     private final ObservableList<TopMovie> obsTopMoviesSimilarUsers = FXCollections.observableArrayList();
 
     private final SimpleObjectProperty<User> obsLoggedInUser = new SimpleObjectProperty<>();
+
+
+
 
     public void loadUsers(){
         obsUsers.clear();
@@ -74,17 +80,24 @@ public class AppModel {
     public SimpleObjectProperty<User> obsLoggedInUserProperty() {
         return obsLoggedInUser;
     }
-
     public void setObsLoggedInUser(User obsLoggedInUser) {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
-
     private final DoubleProperty viewPortWidth =  new SimpleDoubleProperty();
     private final List<Resizable> resizables ;
+    private  SimpleObjectProperty<VideoData> videoData =  new SimpleObjectProperty<>();
+    private  Displayable videoPlayer;
+
+    /**
+     * Holds the current movie that is being hover over*/
+    private MovieData selectedMovie ;
+
+
 
     public AppModel(){
         resizables= new ArrayList<>();
         addChangeListener();
+        addObjectListener();
     }
 
 
@@ -134,6 +147,49 @@ public class AppModel {
 
     public void addResizable(Resizable resizable){
         this.resizables.add(resizable);
+    }
+
+
+    public VideoData getVideoData() {
+        return videoData.get();
+    }
+
+    public SimpleObjectProperty<VideoData> videoDataProperty() {
+        return videoData;
+    }
+
+    public void setVideoData(VideoData videoData) {
+        this.videoData.set(videoData);
+    }
+
+    private void addObjectListener(){
+        this.videoData.addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+this.videoPlayer.updateView();
+                System.out.println(newValue);
+            }
+        });
+    }
+
+    public void setVideoPlayer(Displayable videoPlayer) {
+        this.videoPlayer = videoPlayer;
+    }
+
+    public MovieData getSelectedMovie() {
+        return selectedMovie;
+    }
+
+    public void setSelectedMovie(MovieData selectedMovie) {
+        this.selectedMovie = selectedMovie;
+    }
+
+    public void getMediaToBePlayed(HBox embededContainer) {
+        int[] dimensions= getVideoPlayerWindowDimensions();
+
+        logic.getMediaToBePlayed(this.videoData.get(),embededContainer,dimensions);
+    }
+    public int[] getVideoPlayerWindowDimensions(){
+        return viewLogic.viewPortBasedSizeAspectRatio((int)viewPortWidth.get(),(int)viewPortWidth.get());
     }
 }
 

@@ -1,9 +1,9 @@
 package dk.easv.presentation.controller;
 import dk.easv.entities.*;
 import dk.easv.presentation.model.AppModel;
-import dk.easv.presentation.poster.Dimensions;
-import dk.easv.presentation.poster.ImagePoster;
-import dk.easv.presentation.poster.ImagesControl;
+import dk.easv.presentation.components.poster.Dimensions;
+import dk.easv.presentation.components.poster.ImagePoster;
+import dk.easv.presentation.components.poster.ImagesControl;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +21,6 @@ public class AppController implements Initializable {
     private HBox posterRootParent;
     @FXML
     private HBox postersParent;
-
     private AppModel model;
     private long timerStartMillis = 0;
     private String timerMsg = "";
@@ -51,7 +50,7 @@ public class AppController implements Initializable {
         model.loadUsers();
         stopTimer();
         model.loadData(model.getObsLoggedInUser());
-        imagesControl=new ImagesControl(model.getObsTopMoviesSimilarUsers());
+        imagesControl=new ImagesControl(model.getObsTopMovieNotSeen());
         initializeWidthListener(model);
         loadImages();
         bindButtonsToResize();
@@ -67,14 +66,15 @@ public class AppController implements Initializable {
         scrollPaneFirstPoster.viewportBoundsProperty().addListener((observable, oldValue, newValue) -> {
             model.getViewPortWidthProperty().set(newValue.getWidth());
         });
+
     }
 
 
     /**Loads initial movies to the scrollPane
      * */
     private void loadImages() {
-        for (TopMovie top : imagesControl.getNextBatchMovies()) {
-            ImagePoster imagePoster = new ImagePoster(top.getMovie());
+        for (MovieData top : imagesControl.getNextBatchMovies()) {
+            ImagePoster imagePoster = new ImagePoster(top,model);
             model.addResizable(imagePoster);
             postersParent.getChildren().add(imagePoster);
         }
@@ -121,7 +121,6 @@ model.rewriteData();
          this.rightButton.setVisible(true);
      }
     }
-
     public void hideButtons(MouseEvent mouseEvent) {
         this.rightButton.setVisible(false);
         this.leftButton.setVisible(false);
