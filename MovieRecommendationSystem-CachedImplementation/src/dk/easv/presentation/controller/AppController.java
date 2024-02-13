@@ -3,6 +3,7 @@ import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.LandingPoster.LandingImageController;
+import dk.easv.presentation.LandingPoster.LandingPoster;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.poster.Dimensions;
 import dk.easv.presentation.poster.ImagePoster;
@@ -136,8 +137,9 @@ model.rewriteData();
 
     public void loadLandingPoster() throws MoviesException {
         List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
-        ImagePoster imagePoster = new ImagePoster(movieData.getFirst(), true );
-        landingPosterStackPane.getChildren().add(imagePoster);
+        //ImagePoster imagePoster = new ImagePoster(movieData, true );
+        LandingPoster landingPoster = new LandingPoster(movieData, true);
+        landingPosterStackPane.getChildren().add(landingPoster);
     }
 
 }

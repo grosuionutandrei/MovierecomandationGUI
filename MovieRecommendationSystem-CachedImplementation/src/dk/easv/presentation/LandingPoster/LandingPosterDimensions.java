@@ -1,4 +1,4 @@
-package dk.easv.presentation.poster;
+package dk.easv.presentation.LandingPoster;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
