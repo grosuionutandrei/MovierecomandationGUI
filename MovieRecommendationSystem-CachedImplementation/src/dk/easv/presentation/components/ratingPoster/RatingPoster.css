@@ -1,7 +1,6 @@
 .customInfo{
     -fx-background-color: #141313;
     -fx-opacity: 0.9;
-    /*-fx-border-color:red;*/
 }
 .label{
     -fx-text-fill:#f06071;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -9,19 +10,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="300.0" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.AppController">
+<ScrollPane fx:id="layoutContainer" fitToWidth="true" hbarPolicy="ALWAYS" minHeight="500.0" minWidth="300.0" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: #141313;" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.AppController">
    <content>
       <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
-            <HBox fx:id="landingPage" alignment="CENTER" style="-fx-background-color: #141313;">
+            <HBox fx:id="landingPageContainer" alignment="CENTER" style="-fx-background-color: #141313;">
+<!--               <children>-->
+<!--                  <StackPane fx:id="landingPosterStackPane" />-->
+<!--               </children>-->
+<!--               <VBox.margin>-->
+<!--                  <Insets bottom="10.0" top="5.0" />-->
+<!--               </VBox.margin>-->
+            </HBox>
+            <HBox fx:id="averageMoviesRecomandation" prefHeight="25.0" prefWidth="1086.0">
                <children>
-                  <StackPane fx:id="landingPosterStackPane" />
-               </children></HBox>
-            <HBox fx:id="averageMoviesRecomandation" prefHeight="25.0" prefWidth="1086.0" style="-fx-border-color: purple;">
-               <children>
-                  <Label text="Recomended movies" textFill="#d3fbd8" />
-               </children></HBox>
-            <HBox fx:id="topRecomendedMovies" alignment="CENTER" style="-fx-background-color: #141313; -fx-border-color: green;">
+                  <Label text="Recomended movies" textFill="#d3fbd8">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox fx:id="topRecomendedMovies" alignment="CENTER" style="-fx-background-color: #141313;">
                <children>
                   <StackPane fx:id="topMoviesFromSimilarUsers" onMouseEntered="#showRecommendedButtons" onMouseExited="#hideRecommendedButtons" style="-fx-background-color: #141313;" styleClass="stackPaneParent">
                      <children>
@@ -49,8 +62,11 @@
                      </children>
                   </StackPane>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="5.0" />
+               </VBox.margin>
             </HBox>
-            <HBox fx:id="categoryTitle" prefHeight="25.0" prefWidth="1086.0" style="-fx-border-color: red;">
+            <HBox fx:id="categoryTitle" prefHeight="25.0" prefWidth="1086.0">
                <children>
                   <Label text="Unseen movies" textFill="#d3fbd8">
                      <font>
@@ -58,6 +74,9 @@
                      </font>
                   </Label>
                </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
             </HBox>
             <HBox fx:id="posterRootParent" alignment="CENTER" spacing="10.0" style="-fx-background-color: #141313;" styleClass="groupParent" stylesheets="@Main.css">
                <children>
@@ -87,6 +106,9 @@
                      </children>
                   </StackPane>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="5.0" />
+               </VBox.margin>
             </HBox>
             <HBox fx:id="seenMovies" prefHeight="26.0" prefWidth="1086.0">
                <children>
@@ -96,14 +118,17 @@
                      </font>
                   </Label>
                </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
             </HBox>
             <HBox fx:id="topMoviesSeen">
                <children>
-                  <StackPane onMouseEntered="#showSeenButton" onMouseExited="#hideSeenButton" style="-fx-background-color: #141313; -fx-border-color: orange;" HBox.hgrow="ALWAYS">
+                  <StackPane onMouseEntered="#showSeenButton" onMouseExited="#hideSeenButton" style="-fx-background-color: #141313;" HBox.hgrow="ALWAYS">
                      <children>
                         <ScrollPane fx:id="scrollPaneMoviesSeen" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #141313;" vbarPolicy="NEVER">
                            <content>
-                              <HBox fx:id="postersParentMoviesSeen" alignment="CENTER" style="-fx-background-color: #141313; -fx-border-color: green;" />
+                              <HBox fx:id="postersParentMoviesSeen" alignment="CENTER" style="-fx-background-color: #141313;" />
                            </content>
                         </ScrollPane>
                         <MFXButton fx:id="leftButtonNSeen" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" onAction="#toTheLeftNSeen" opacity="0.49" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&lt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_LEFT">
@@ -124,8 +149,11 @@
                         </MFXButton>
                      </children>
                   </StackPane>
-               </children></HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
          </children>
       </VBox>
    </content>

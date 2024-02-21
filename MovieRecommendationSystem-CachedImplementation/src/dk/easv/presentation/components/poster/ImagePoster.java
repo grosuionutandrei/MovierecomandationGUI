@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -22,9 +23,6 @@ public class ImagePoster extends VBox implements Resizable {
 
     private final int MIN_WIDTH = 100;
     private final int MIN_HEIGHT = 100;
-
-//    @FXML
-//    private Label title;
     @FXML
     private final ImageView imageView;
     @FXML
@@ -42,6 +40,7 @@ public class ImagePoster extends VBox implements Resizable {
         this.posterStack.setMaxWidth(dimensions.getWidth());
         this.posterStack.getStyleClass().add("posterStack");
         this.imageView = new ImageView();
+        this.imageView.getStyleClass().add("image-view");
         this.getStyleClass().add("poster");
         this.setAlignment(Pos.CENTER);
         ImageDao imageDao = new ImageDao();
@@ -52,6 +51,7 @@ public class ImagePoster extends VBox implements Resizable {
         this.getChildren().add(posterStack);
         bindSizeToDimensions();
         this.model=model;
+        VBox.setVgrow(this, Priority.ALWAYS);
     }
 
 

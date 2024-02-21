@@ -1,12 +1,14 @@
 .poster{
 -fx-alignment: center;
-    /*-fx-border-color: green;*/
+
 }
 
 .postersParent{
     -fx-background-color:#00c9c8;
     -fx-spacing: 20;
 }
+.image-view{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 10);
+}
 .posterStack{
-    /*-fx-border-color: blue;*/
 }

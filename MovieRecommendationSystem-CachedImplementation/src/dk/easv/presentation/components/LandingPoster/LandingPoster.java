@@ -2,6 +2,7 @@ package dk.easv.presentation.components.LandingPoster;
 
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.httpRequest.ImageDao;
+import dk.easv.presentation.listeners.Resizable;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
@@ -21,11 +22,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class LandingPoster extends StackPane {
+public class LandingPoster extends StackPane implements Resizable {
     @FXML
     private ImageView imageView;
     @FXML
@@ -47,35 +49,34 @@ public class LandingPoster extends StackPane {
     private StackPane innerStackPane;
     private final int Poster_WIDTH = 1100;
     private final int Poster_HEIGHT = 600;
+
+    private static final double MIN_WIDTH = 300; // Example minimum width
+    private static final double MIN_HEIGHT = 200;
     private List<FadeTransition> fades = new ArrayList<>();
     private int imageIndex = 0;
     private int fadeIndex = 0;
 
     private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance(Poster_WIDTH, Poster_HEIGHT);
 
-    private PauseTransition pauseTransition = new PauseTransition(Duration.seconds(3));
+    private PauseTransition pauseTransition = new PauseTransition(Duration.seconds(10));
 
     private List<StackPane> stackPaneList = new ArrayList<>();
 
-    private StackPane landingPosterStackPane;
 
     public LandingPoster(List<MovieSearchResponse> movieSearchResponseList, Boolean isLandingPoster) {
 
         super();
-
         // get all the movies
         List<MovieSearchResponse> movieList = new ArrayList<>(movieSearchResponseList);
-
         // set all the movies
         setAllMovies(movieList);
 
     }
 
-    private void setAllMovies(List<MovieSearchResponse> movieList)
-    {
+    private void setAllMovies(List<MovieSearchResponse> movieList) {
 
         // set up all movies
-        for (MovieSearchResponse movie: movieList) {
+        for (MovieSearchResponse movie : movieList) {
 
             // set movie on StackPane
             StackPane stackPane = setMovie(movie);
@@ -107,8 +108,7 @@ public class LandingPoster extends StackPane {
 
     }
 
-    private StackPane setMovie(MovieSearchResponse movie)
-    {
+    private StackPane setMovie(MovieSearchResponse movie) {
         // StackPane to stack everything on image
         StackPane innerStackPane = new StackPane();
 
@@ -126,32 +126,33 @@ public class LandingPoster extends StackPane {
         buttonsForPoster.getChildren().addAll(watchNowButton, moreButton); // buttons to HBox
         allLabelsOverPicture.getChildren().addAll(titleLabel, descLabel, buttonsForPoster); // title , description and buttons to VBox
         innerStackPane.getChildren().addAll(imageView, rectangle, allLabelsOverPicture); // adding imageView, then rectangle on top of that, and at the end, spawning vbox which contains all text labels and buttons
-
         return innerStackPane;
     }
 
 
-    public void setLandingPosterDimensions(double width, double height){
+    public void setLandingPosterDimensions(double width, double height) {
         this.imageView.setFitWidth(width);
         this.imageView.setFitHeight(height);
-        this.imageView.setPreserveRatio(true);
+        this.imageView.setPreserveRatio(false);
     }
 
-    private void setImage(MovieSearchResponse movie){
+    private void setImage(MovieSearchResponse movie) {
         this.imageView = new ImageView();
         getImage(this.imageView, movie.getBackdrop_path());
 
     }
 
 
-    private void getImage(ImageView image, String uri){
+    private void getImage(ImageView image, String uri) {
         ImageDao imageDao = new ImageDao();
         imageDao.getImage(image, uri, true);
     }
 
 
-    /** Vertical rectangle on the poster image */
-    private void setRectangle(){
+    /**
+     * Vertical rectangle on the poster image
+     */
+    private void setRectangle() {
         this.rectangle = new Rectangle();
         // Rectangle coloring
         LinearGradient paint = new LinearGradient(
@@ -165,7 +166,7 @@ public class LandingPoster extends StackPane {
         rectangle.heightProperty().bind(imageView.fitHeightProperty());
     }
 
-    private void setParentVBox(){
+    private void setParentVBox() {
         this.allLabelsOverPicture = new VBox();
         allLabelsOverPicture.setSpacing(30);
         allLabelsOverPicture.setAlignment(Pos.CENTER_LEFT);
@@ -173,7 +174,7 @@ public class LandingPoster extends StackPane {
 
     }
 
-    private void setTitle(MovieSearchResponse movie){
+    private void setTitle(MovieSearchResponse movie) {
         this.titleLabel = new Label();
         titleLabel.setText(movie.getTitle());
         titleLabel.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, 50));
@@ -182,7 +183,7 @@ public class LandingPoster extends StackPane {
 
     }
 
-    private void setDescription(MovieSearchResponse movie){
+    private void setDescription(MovieSearchResponse movie) {
         this.descLabel = new Label();
         descLabel.setText(movie.getOverview());
         descLabel.setFont(Font.font("Hack", FontWeight.BOLD, 17));
@@ -193,14 +194,14 @@ public class LandingPoster extends StackPane {
 
     }
 
-    private void setButtonsHBox(){
+    private void setButtonsHBox() {
         this.buttonsForPoster = new HBox();
         buttonsForPoster.setSpacing(20);
-        buttonsForPoster.getStylesheets().add("dk/easv/presentation/LandingPoster/LandingPoster.css"); // addressing css file
+        buttonsForPoster.getStylesheets().add("dk/easv/presentation/components/LandingPoster/LandingPoster.css"); // addressing css file
 
     }
 
-    private void setButtons(){
+    private void setButtons() {
         this.watchNowButton = new Button("Watch Online");
         this.moreButton = new Button("More");
 
@@ -214,7 +215,7 @@ public class LandingPoster extends StackPane {
 
     }
 
-    private void callFade(int index){
+    private void callFade(int index) {
         // fade in
         fades.get(index).play();
 
@@ -224,10 +225,10 @@ public class LandingPoster extends StackPane {
             fades.get(fadeIndex + 1).play();
 
             // make next picture visible and same time run fade in for it
-            imageIndex ++;
+            imageIndex++;
             try {
                 stackPaneList.get(imageIndex).setVisible(true);
-            } catch (Exception e){
+            } catch (Exception e) {
                 imageIndex = 0;
                 fadeIndex = 0;
                 callFade(fadeIndex);
@@ -241,4 +242,17 @@ public class LandingPoster extends StackPane {
         pauseTransition.play();
     }
 
+    @Override
+    public void resizeImage(double x, double y) {
+        if (x >= 300) {
+            double newWidth = (Poster_WIDTH + x) * 0.2;
+            double newHeight = (Poster_HEIGHT + x) * 0.2;
+            newWidth = Math.min(Poster_WIDTH, Math.max(MIN_WIDTH, newWidth));
+            newHeight = Math.min(Poster_HEIGHT, Math.max(MIN_HEIGHT, newHeight));
+            landingPosterDimensions.setWidth(newWidth);
+            landingPosterDimensions.setHeight(newHeight);
+            this.imageView.setFitWidth(newWidth);
+            this.imageView.setFitHeight(newHeight);
+        }
+    }
 }

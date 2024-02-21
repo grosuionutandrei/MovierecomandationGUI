@@ -1,8 +1,5 @@
 package dk.easv.dataaccess.httpRequest;
-
-
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import dk.easv.dataaccess.ACCESS;
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.dataaccess.apiRequest.transcripts.VideoSearchResponse;
@@ -44,13 +41,11 @@ public class Search {
 
     public List<VideoData> movieResponses(int id) {
         VideoSearchResponse searchResponse = searchRequest(id);
-
          Gson gson = new Gson();
         List<?> map = searchResponse.getResults();
         if(map!=null){
             return map.stream().map(gson::toJson).map(elem -> gson.fromJson(elem, VideoData.class)).toList();
         }
         return null;
-
     }
 }

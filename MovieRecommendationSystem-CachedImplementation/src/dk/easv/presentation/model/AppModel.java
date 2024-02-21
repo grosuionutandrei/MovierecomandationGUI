@@ -22,7 +22,6 @@ public class AppModel {
 
     LogicManager logic = new LogicManager();
     ViewLogic viewLogic = new ViewLogic();
-    // Models of the data in the view
     private final ObservableList<User> obsUsers = FXCollections.observableArrayList();
     private final ObservableList<MovieData> obsTopMovieSeen = FXCollections.observableArrayList();
     private final ObservableList<MovieData> obsTopMovieNotSeen = FXCollections.observableArrayList();
@@ -51,49 +50,27 @@ public class AppModel {
         obsTopMoviesSimilarUsers.addAll(logic.getTopMoviesFromSimilarPeople(user));
     }
 
-    public ObservableList<User> getObsUsers() {
-        return obsUsers;
-    }
-
-    public ObservableList<MovieData> getObsTopMovieSeen() {
-        return obsTopMovieSeen;
-    }
-
-    public ObservableList<MovieData> getObsTopMovieNotSeen() {
-        return obsTopMovieNotSeen;
-    }
-
-
-    public ObservableList<UserSimilarity> getObsSimilarUsers() {
-        return obsSimilarUsers;
-    }
-
-    public ObservableList<TopMovie> getObsTopMoviesSimilarUsers() {
-        return obsTopMoviesSimilarUsers;
-    }
-
-    public User getObsLoggedInUser() {
-        return obsLoggedInUser.get();
-    }
-
-    public SimpleObjectProperty<User> obsLoggedInUserProperty() {
-        return obsLoggedInUser;
-    }
-
-    public void setObsLoggedInUser(User obsLoggedInUser) {
-        this.obsLoggedInUser.set(obsLoggedInUser);
-    }
-
     private final DoubleProperty viewPortWidth = new SimpleDoubleProperty();
+    /**
+     * holds the resizable components
+     */
     private final List<Resizable> resizables;
+
+    /**
+     * stores the data received from the tmdb in order for the videoPlayer to now from where to retrieve the embeded iframe
+     */
     private SimpleObjectProperty<VideoData> videoData = new SimpleObjectProperty<>();
+
+    /**
+     * displays the trailer of the movie that has been clicked
+     */
     private Displayable videoPlayer;
 
     /**
      * Holds the current movie that is being hover over
      */
     private MovieData selectedMovie;
-
+    public double[] coords = new double[2];
 
     public AppModel() {
         resizables = new ArrayList<>();
@@ -182,7 +159,6 @@ public class AppModel {
 
     public void getMediaToBePlayed(HBox embededContainer) {
         int[] dimensions = getVideoPlayerWindowDimensions();
-
         logic.getMediaToBePlayed(this.videoData.get(), embededContainer, dimensions);
     }
 
@@ -202,6 +178,40 @@ public class AppModel {
         ObservableList<MovieData> movieData = FXCollections.observableArrayList();
         this.getObsTopMoviesSimilarUsers().forEach(elem -> movieData.add(elem.getMovie()));
         return movieData;
+    }
+
+
+    public ObservableList<User> getObsUsers() {
+        return obsUsers;
+    }
+
+    public ObservableList<MovieData> getObsTopMovieSeen() {
+        return obsTopMovieSeen;
+    }
+
+    public ObservableList<MovieData> getObsTopMovieNotSeen() {
+        return obsTopMovieNotSeen;
+    }
+
+
+    public ObservableList<UserSimilarity> getObsSimilarUsers() {
+        return obsSimilarUsers;
+    }
+
+    public ObservableList<TopMovie> getObsTopMoviesSimilarUsers() {
+        return obsTopMoviesSimilarUsers;
+    }
+
+    public User getObsLoggedInUser() {
+        return obsLoggedInUser.get();
+    }
+
+    public SimpleObjectProperty<User> obsLoggedInUserProperty() {
+        return obsLoggedInUser;
+    }
+
+    public void setObsLoggedInUser(User obsLoggedInUser) {
+        this.obsLoggedInUser.set(obsLoggedInUser);
     }
 
 }

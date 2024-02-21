@@ -2,6 +2,7 @@ package dk.easv.presentation.components.ratingPoster;
 
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.dataaccess.httpRequest.Search;
+import dk.easv.exceptions.ExceptionHandler;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.playwindow.PlayWindowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,14 +31,11 @@ public class PlayButton extends MFXButton {
     }
 
     private void setOnAction() {
-        this.setOnAction(e -> {
+        this.setOnMouseClicked(e -> {
             Thread test = new Thread(() -> {
                 Search search = new Search();
-
                 List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getTmdbId());
-//                modify to run onlly the updates
                 Platform.runLater(() -> {
-
                             if (data != null && (!data.isEmpty())) {
                                 model.setVideoData(data.get(0));
                             } else {
@@ -47,7 +44,6 @@ public class PlayButton extends MFXButton {
                                 videoData.setSite("default");
                                 model.setVideoData(videoData);
                             }
-
                         }
                 );
             });
@@ -55,6 +51,8 @@ public class PlayButton extends MFXButton {
             Stage currentStage = (Stage) ((Scene) ((Node) e.getSource()).getScene()).getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../playwindow/playWindow.fxml"));
             try {
+                model.coords[0] = e.getScreenX();
+                model.coords[1] = e.getScreenY();
                 Parent root = loader.load();
                 PlayWindowController playWindowController = loader.getController();
                 playWindowController.setDisplayable(model);
@@ -65,17 +63,16 @@ public class PlayButton extends MFXButton {
                 modal.initModality(Modality.APPLICATION_MODAL);
                 modal.initStyle(StageStyle.UNDECORATED);
                 modal.setScene(scene);
-                modal.show();
+                playWindowController.getNewStage(scene,modal);
+
+
+              //  modal.show();
             } catch (IOException ex) {
                 ex.getStackTrace();
-                Alert alarm = new Alert(Alert.AlertType.ERROR, "fxml error from play window" + ex.getMessage());
-                alarm.show();
+                ExceptionHandler.displayErrorAlert(ex.getMessage(), null);
             }
         });
     }
-
-
-
 
 
 }

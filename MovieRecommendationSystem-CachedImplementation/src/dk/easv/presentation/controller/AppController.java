@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -24,11 +23,15 @@ import java.net.URL;
 import java.util.*;
 
 public class AppController implements Initializable {
+
     @FXML
     private MFXButton rightButton;
     @FXML
     private MFXButton leftButton;
-
+    @FXML
+    private ScrollPane layoutContainer;
+    @FXML
+    private HBox landingPageContainer;
     /**
      * left button for the recommended movies
      */
@@ -105,7 +108,6 @@ public class AppController implements Initializable {
      * controls the loading off the seen movies
      */
     private ImagesControl imagesControlTopMoviesSeen;
-
     private AppModel model;
     private long timerStartMillis = 0;
     private String timerMsg = "";
@@ -132,28 +134,29 @@ public class AppController implements Initializable {
 
     public void setModel(AppModel model) throws MoviesException {
         this.model = model;
-        startTimer("Load users");
         model.loadUsers();
-        stopTimer();
         model.loadData(model.getObsLoggedInUser());
         imagesControlTopMoviesNotSeen = new ImagesControl(model.getObsTopMovieNotSeen());
         imagesControlTopMoviesSeen = new ImagesControl(model.getObsTopMovieSeen());
-        topRecomendedMoviesImagesControl =  new ImagesControl(model.recommendedMoviesList());
+        topRecomendedMoviesImagesControl = new ImagesControl(model.recommendedMoviesList());
         initializeWidthListener(model);
         loadImages(imagesControlTopMoviesNotSeen, model, postersParent);
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
         bindbuttonsToResize();
+        landingPageContainer.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        landingPosterStackPane.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.setSpacing(15);
+        postersParent.setSpacing(15);
+        postersParentMoviesSeen.setSpacing(15);
         postersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         posterRootParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         postersParentMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
-        postersParent.setSpacing(10);
         landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
-        loadLandingPoster();
+       // loadLandingPoster();
     }
 
     private void bindbuttonsToResize() {
@@ -297,6 +300,7 @@ public class AppController implements Initializable {
     public void loadLandingPoster() throws MoviesException {
         List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
         LandingPoster landingPoster = new LandingPoster(movieData, true);
+        model.addResizable(landingPoster);
         landingPosterStackPane.getChildren().add(landingPoster);
     }
 
