@@ -29,7 +29,7 @@ public class RatingPoster extends VBox {
     }
 
     private void setStyleSettings() {
-        this.getStylesheets().add("dk/easv/presentation/ratingPoster/RatingPoster.css");
+        this.getStylesheets().add("dk/easv/presentation/components/ratingPoster/RatingPoster.css");
         this.getStyleClass().add("customInfo");
     }
 

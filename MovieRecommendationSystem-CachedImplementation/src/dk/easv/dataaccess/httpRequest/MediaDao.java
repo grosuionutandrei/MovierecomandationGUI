@@ -37,6 +37,7 @@ WebView webView = new WebView();
             webView.getStyleClass().add("webContainer");
             embedContainer.getChildren().clear();
             embedContainer.getChildren().add(webView);
+            System.out.println(key);
         });
         mediaService.setOnFailed(e -> {
             System.out.println("Failed");

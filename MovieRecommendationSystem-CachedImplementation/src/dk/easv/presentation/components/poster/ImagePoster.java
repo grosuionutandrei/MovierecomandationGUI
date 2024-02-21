@@ -100,6 +100,7 @@ public class ImagePoster extends VBox implements Resizable {
 
         pauseTransition.setOnFinished(event -> {
             model.setSelectedMovie(movieData);
+            System.out.println(movieData);
             this.ratingContainer = new RatingPoster(model,this.dimensions);
             this.posterStack.getChildren().add(ratingContainer);
             StackPane.setAlignment(ratingContainer, Pos.BOTTOM_CENTER);

@@ -6,7 +6,6 @@ public class ViewLogic {
     private final int MAX_HEIGHT = 432;
     public ViewLogic() {
     }
-
     public int[] viewPortBasedSizeAspectRatio(int width,int height){
      int[] dimensions= {MAX_WIDTH,MAX_HEIGHT};
      if(width<MAX_WIDTH){
@@ -16,7 +15,6 @@ public class ViewLogic {
          dimensions[0]=(int)widthSize;
          dimensions[1]=(int) heightSize;
      }
-
     return dimensions;
     }
 }

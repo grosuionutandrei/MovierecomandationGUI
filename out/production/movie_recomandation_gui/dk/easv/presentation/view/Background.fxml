@@ -16,7 +16,7 @@
             <HBox fx:id="BigPictures" alignment="CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #141313;" />
             <HBox fx:id="categoryTitle" prefHeight="25.0" prefWidth="1086.0" style="-fx-border-color: red;">
                <children>
-                  <Label text="Unseen movies" textFill="#d3fbd8">
+                  <Label text="Recomended movies" textFill="#d3fbd8">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -52,8 +52,45 @@
                   </StackPane>
                </children>
             </HBox>
-            <HBox fx:id="topMoviesRecomandation" prefHeight="400.0" prefWidth="1100.0" />
+            <HBox fx:id="seenMovies" prefHeight="26.0" prefWidth="1086.0">
+               <children>
+                  <Label layoutX="10.0" layoutY="10.0" text="Seen movies" textFill="#d3fbd8">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="topMoviesSeen" prefHeight="400.0" prefWidth="1100.0">
+               <children>
+                  <StackPane onMouseEntered="#showSeenButton" onMouseExited="#hideSeenButton" style="-fx-background-color: #141313; -fx-border-color: orange;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ScrollPane fx:id="scrollPaneMoviesSeen" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #141313;" vbarPolicy="NEVER">
+                           <content>
+                              <HBox fx:id="postersParentMoviesSeen" alignment="CENTER" style="-fx-background-color: #141313; -fx-border-color: green;" />
+                           </content>
+                        </ScrollPane>
+                        <MFXButton fx:id="leftButtonNSeen" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" onAction="#toTheLeftNSeen" opacity="0.49" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&lt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_LEFT">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="rightButtonNSeen" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" onAction="#toTheRightNSeen" opacity="0.49" rippleColor="#ec0000" style="-fx-background-color: #141313;" text="&gt;" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </StackPane>
+               </children></HBox>
             <HBox fx:id="averageMoviesRecomandation" prefHeight="400.0" prefWidth="1100.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>

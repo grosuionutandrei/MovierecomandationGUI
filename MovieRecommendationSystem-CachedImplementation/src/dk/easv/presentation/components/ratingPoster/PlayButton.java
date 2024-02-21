@@ -2,7 +2,6 @@ package dk.easv.presentation.components.ratingPoster;
 
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.dataaccess.httpRequest.Search;
-import dk.easv.entities.MovieData;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.playwindow.PlayWindowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -16,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class PlayButton extends MFXButton {
             Thread test = new Thread(() -> {
                 Search search = new Search();
                 Platform.runLater(() -> {
-                            List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getId());
+                            List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getTmdbId());
                             if (data != null && (!data.isEmpty())) {
                                 model.setVideoData(data.get(0));
                             } else {

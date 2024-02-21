@@ -20,7 +20,7 @@ public class MediaService extends Service<String> {
         return new Task<String>() {
             @Override
             protected String call() throws Exception {
-                String iframe = "<iframe width='"+width+"' height='"+height+"' src="+mediaPath+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>";
+                String iframe = "<iframe style=\"background-color: #141313\" width='"+width+"' height='"+height+"' src="+mediaPath+" title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>";
                 return iframe;
             }
         };

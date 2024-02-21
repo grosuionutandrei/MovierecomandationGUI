@@ -21,20 +21,18 @@ import java.util.List;
 public class AppModel {
 
     LogicManager logic = new LogicManager();
-    ViewLogic  viewLogic =  new ViewLogic();
+    ViewLogic viewLogic = new ViewLogic();
     // Models of the data in the view
-    private final ObservableList<User>  obsUsers = FXCollections.observableArrayList();
+    private final ObservableList<User> obsUsers = FXCollections.observableArrayList();
     private final ObservableList<MovieData> obsTopMovieSeen = FXCollections.observableArrayList();
     private final ObservableList<MovieData> obsTopMovieNotSeen = FXCollections.observableArrayList();
-    private final ObservableList<UserSimilarity>  obsSimilarUsers = FXCollections.observableArrayList();
+    private final ObservableList<UserSimilarity> obsSimilarUsers = FXCollections.observableArrayList();
     private final ObservableList<TopMovie> obsTopMoviesSimilarUsers = FXCollections.observableArrayList();
 
     private final SimpleObjectProperty<User> obsLoggedInUser = new SimpleObjectProperty<>();
 
 
-
-
-    public void loadUsers(){
+    public void loadUsers() {
         obsUsers.clear();
         obsUsers.addAll(logic.getAllUsers());
     }
@@ -65,6 +63,7 @@ public class AppModel {
         return obsTopMovieNotSeen;
     }
 
+
     public ObservableList<UserSimilarity> getObsSimilarUsers() {
         return obsSimilarUsers;
     }
@@ -80,26 +79,27 @@ public class AppModel {
     public SimpleObjectProperty<User> obsLoggedInUserProperty() {
         return obsLoggedInUser;
     }
+
     public void setObsLoggedInUser(User obsLoggedInUser) {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
-    private final DoubleProperty viewPortWidth =  new SimpleDoubleProperty();
-    private final List<Resizable> resizables ;
-    private  SimpleObjectProperty<VideoData> videoData =  new SimpleObjectProperty<>();
-    private  Displayable videoPlayer;
+
+    private final DoubleProperty viewPortWidth = new SimpleDoubleProperty();
+    private final List<Resizable> resizables;
+    private SimpleObjectProperty<VideoData> videoData = new SimpleObjectProperty<>();
+    private Displayable videoPlayer;
 
     /**
-     * Holds the current movie that is being hover over*/
-    private MovieData selectedMovie ;
+     * Holds the current movie that is being hover over
+     */
+    private MovieData selectedMovie;
 
 
-
-    public AppModel(){
-        resizables= new ArrayList<>();
+    public AppModel() {
+        resizables = new ArrayList<>();
         addChangeListener();
         addObjectListener();
     }
-
 
 
     public DoubleProperty getViewPortWidthProperty() {
@@ -109,43 +109,40 @@ public class AppModel {
     public boolean loginUserFromUsername(String userName) {
         User u = logic.getUser(userName);
         obsLoggedInUser.set(u);
-        if (u==null)
+        if (u == null)
             return false;
         else
             return true;
     }
 
-
     private String processQuery(String text) {
         return logic.processQuerry(text);
     }
 
-
-
-
     public List<MovieSearchResponse> getResults(String name, String year) throws MoviesException {
         String nameProcessed = processQuery(name);
         String yearProcessed = processQuery(year);
-        return logic.getAllResponses(nameProcessed,yearProcessed);
+        return logic.getAllResponses(nameProcessed, yearProcessed);
     }
 
-    public void rewriteData(){
+    public void rewriteData() {
         logic.rewriteData();
     }
 
-    private void addChangeListener(){
+    private void addChangeListener() {
         this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
-            Double newSize = (Double)newValue;
-                resizeItems(newSize);
+            Double newSize = (Double) newValue;
+            resizeItems(newSize);
         });
     }
+
     private void resizeItems(Double newSize) {
-        for(Resizable res : resizables){
-            res.resizeImage(newSize,0);
+        for (Resizable res : resizables) {
+            res.resizeImage(newSize, 0);
         }
     }
 
-    public void addResizable(Resizable resizable){
+    public void addResizable(Resizable resizable) {
         this.resizables.add(resizable);
     }
 
@@ -162,10 +159,10 @@ public class AppModel {
         this.videoData.set(videoData);
     }
 
-    private void addObjectListener(){
+    private void addObjectListener() {
         this.videoData.addListener((observable, oldValue, newValue) -> {
-            if(newValue!=null){
-this.videoPlayer.updateView();
+            if (newValue != null) {
+                this.videoPlayer.updateView();
                 System.out.println(newValue);
             }
         });
@@ -184,12 +181,13 @@ this.videoPlayer.updateView();
     }
 
     public void getMediaToBePlayed(HBox embededContainer) {
-        int[] dimensions= getVideoPlayerWindowDimensions();
+        int[] dimensions = getVideoPlayerWindowDimensions();
 
-        logic.getMediaToBePlayed(this.videoData.get(),embededContainer,dimensions);
+        logic.getMediaToBePlayed(this.videoData.get(), embededContainer, dimensions);
     }
-    public int[] getVideoPlayerWindowDimensions(){
-        return viewLogic.viewPortBasedSizeAspectRatio((int)viewPortWidth.get(),(int)viewPortWidth.get());
+
+    public int[] getVideoPlayerWindowDimensions() {
+        return viewLogic.viewPortBasedSizeAspectRatio((int) viewPortWidth.get(), (int) viewPortWidth.get());
     }
 }
 
