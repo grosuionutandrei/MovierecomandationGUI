@@ -34,8 +34,11 @@ public class PlayButton extends MFXButton {
         this.setOnAction(e -> {
             Thread test = new Thread(() -> {
                 Search search = new Search();
+
+                List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getTmdbId());
+//                modify to run onlly the updates
                 Platform.runLater(() -> {
-                            List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getTmdbId());
+
                             if (data != null && (!data.isEmpty())) {
                                 model.setVideoData(data.get(0));
                             } else {

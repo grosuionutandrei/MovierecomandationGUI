@@ -189,6 +189,21 @@ public class AppModel {
     public int[] getVideoPlayerWindowDimensions() {
         return viewLogic.viewPortBasedSizeAspectRatio((int) viewPortWidth.get(), (int) viewPortWidth.get());
     }
+
+    /**
+     * Used for getting data for landing poster
+     */
+    public List<MovieSearchResponse> getResults(String name) throws MoviesException {
+        String nameProcessed = processQuery(name);
+        return logic.getAllResponses(nameProcessed);
+    }
+
+    public ObservableList<MovieData> recommendedMoviesList() {
+        ObservableList<MovieData> movieData = FXCollections.observableArrayList();
+        this.getObsTopMoviesSimilarUsers().forEach(elem -> movieData.add(elem.getMovie()));
+        return movieData;
+    }
+
 }
 
 

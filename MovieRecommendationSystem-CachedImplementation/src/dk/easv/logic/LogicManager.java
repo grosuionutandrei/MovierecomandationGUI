@@ -2,6 +2,7 @@ package dk.easv.logic;
 
 import dk.easv.dataaccess.DataAccessManager;
 import dk.easv.dataaccess.apiRequest.Search;
+import dk.easv.dataaccess.apiRequest.services.MultiSearch;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.dataaccess.httpRequest.MediaDao;
@@ -18,6 +19,7 @@ public class LogicManager {
     DataAccessManager dataMgr = new DataAccessManager();
     Search search = new Search();
     MediaDao mediaDao =  new MediaDao();
+    MultiSearch multiSearch = new MultiSearch();
 
     public void reloadAllDataFromStorage(){
         dataMgr.updateCacheFromDisk();
@@ -150,4 +152,11 @@ public class LogicManager {
     public void getMediaToBePlayed(VideoData videoData, HBox embededContainer, int[]dimensions) {
         mediaDao.getMedia(videoData.getSite(), embededContainer, videoData.getKey(), dimensions[0],dimensions[1]);
     }
+
+
+    /** Used for getting data for landing poster */
+    public List<MovieSearchResponse> getAllResponses(String name) throws MoviesException {
+        return multiSearch.parseResponse(name);
+    }
+
 }

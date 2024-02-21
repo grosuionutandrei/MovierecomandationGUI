@@ -1,6 +1,10 @@
 package dk.easv.presentation.controller;
 
+import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
+import dk.easv.exceptions.MoviesException;
+import dk.easv.presentation.components.LandingPoster.LandingImageController;
+import dk.easv.presentation.components.LandingPoster.LandingPoster;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.poster.Dimensions;
 import dk.easv.presentation.components.poster.ImagePoster;
@@ -14,25 +18,72 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.*;
 
 public class AppController implements Initializable {
-    public MFXButton rightButton;
-    public MFXButton leftButton;
+    @FXML
+    private MFXButton rightButton;
+    @FXML
+    private MFXButton leftButton;
+
+    /**
+     * left button for the recommended movies
+     */
+    @FXML
+    private MFXButton leftButtonRecomended;
+
+    /**
+     * right button for recommended movies
+     */
+    @FXML
+    private MFXButton rightButtonRecomended;
+
+    /**
+     * container for the scroll pane that contains the recommended movies for the user
+     */
+    @FXML
+    private HBox topRecomendedMovies;
+
+    /**
+     * container for the posters off the recommended movies
+     */
+    @FXML
+    private HBox recommendedMoviesPostersParent;
+
+    /**
+     * controls what recommended movies are displayed
+     */
+    @FXML
+    private ImagesControl topRecomendedMoviesImagesControl;
+
+    /**
+     * container for the recommended movies posters and navigation buttons
+     */
+    @FXML
+    private ScrollPane scrollPaneRecomendedMovies;
+
+    /**
+     * container for the landing page
+     */
+    @FXML
+    private HBox landingPage;
+    private LandingImageController landingImageController;
+    @FXML
+    private StackPane landingPosterStackPane;
+
     /**
      * posterRootParent holds the scroll pane with the posters for the movies
      */
     @FXML
     private HBox posterRootParent;
-
     /**
      * posterParent is holding the posters with the movies
      */
     @FXML
     private HBox postersParent;
-
     /**
      * topMoviesSeen holds the view for the top movies user have seen
      */
@@ -40,7 +91,7 @@ public class AppController implements Initializable {
     private HBox topMoviesSeen;
 
     /**
-     * holds the posters  for seen movies
+     * postersParentMovieSeen holds the posters  for seen movies
      */
     @FXML
     private HBox postersParentMoviesSeen;
@@ -54,8 +105,6 @@ public class AppController implements Initializable {
      * controls the loading off the seen movies
      */
     private ImagesControl imagesControlTopMoviesSeen;
-    private boolean isRightNSeenPressed = false;
-
 
     private AppModel model;
     private long timerStartMillis = 0;
@@ -63,10 +112,9 @@ public class AppController implements Initializable {
     @FXML
     private ScrollPane scrollPaneFirstPoster;
     private ImagesControl imagesControlTopMoviesNotSeen;
-
-
     private boolean isRightPressed = false;
-
+    private boolean isRightNSeenPressed = false;
+    private boolean isRightRecommendedPressed = false;
 
     private void startTimer(String message) {
         timerStartMillis = System.currentTimeMillis();
@@ -82,7 +130,7 @@ public class AppController implements Initializable {
 
     }
 
-    public void setModel(AppModel model) {
+    public void setModel(AppModel model) throws MoviesException {
         this.model = model;
         startTimer("Load users");
         model.loadUsers();
@@ -90,17 +138,28 @@ public class AppController implements Initializable {
         model.loadData(model.getObsLoggedInUser());
         imagesControlTopMoviesNotSeen = new ImagesControl(model.getObsTopMovieNotSeen());
         imagesControlTopMoviesSeen = new ImagesControl(model.getObsTopMovieSeen());
-        System.out.println(model.getObsTopMovieSeen().size());
+        topRecomendedMoviesImagesControl =  new ImagesControl(model.recommendedMoviesList());
         initializeWidthListener(model);
         loadImages(imagesControlTopMoviesNotSeen, model, postersParent);
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
-        bindButtonsToResize(this.leftButton, this.rightButton);
-        bindButtonsToResize(this.leftButtonNSeen, this.rightButtonNSeen);
+        loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
+        bindbuttonsToResize();
+        topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        recommendedMoviesPostersParent.setSpacing(15);
         postersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         posterRootParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         postersParentMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        postersParent.setSpacing(10);
+        landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
+        loadLandingPoster();
+    }
 
+    private void bindbuttonsToResize() {
+        bindButtonsToResize(this.leftButton, this.rightButton);
+        bindButtonsToResize(this.leftButtonNSeen, this.rightButtonNSeen);
+        bindButtonsToResize(this.leftButtonRecomended, this.rightButtonRecomended);
     }
 
 
@@ -235,7 +294,47 @@ public class AppController implements Initializable {
         right.setVisible(false);
     }
 
+    public void loadLandingPoster() throws MoviesException {
+        List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
+        LandingPoster landingPoster = new LandingPoster(movieData, true);
+        landingPosterStackPane.getChildren().add(landingPoster);
+    }
 
+    public void toTheRightRecomended(ActionEvent event) {
+        isRightRecommendedPressed = true;
+        this.leftButtonRecomended.setVisible(true);
+        loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
+        double viewportWidth = this.scrollPaneRecomendedMovies.getViewportBounds().getWidth();
+        double contentWidth = this.scrollPaneRecomendedMovies.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
+        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
+        double newHvalue = Math.min(1.0, Math.max(0.0, this.scrollPaneRecomendedMovies.getHvalue() + moveNormalized));
+        this.scrollPaneRecomendedMovies.setHvalue(newHvalue);
+    }
+
+    public void toTheLeftRecomended(ActionEvent event) {
+        double viewportWidth = this.scrollPaneRecomendedMovies.getViewportBounds().getWidth();
+        double contentWidth = this.scrollPaneRecomendedMovies.getContent().prefWidth(-1);
+        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
+        double newHvalue = Math.max(0.0, this.scrollPaneRecomendedMovies.getHvalue() - moveNormalized);
+        this.scrollPaneRecomendedMovies.setHvalue(newHvalue);
+    }
+
+
+    /**
+     * show the navigation buttons for the recommended movies posters when mouse over
+     */
+    @FXML
+    private void showRecommendedButtons(MouseEvent mouseEvent) {
+        showButtonsOnHover(isRightRecommendedPressed, leftButtonRecomended, rightButtonRecomended);
+    }
+
+    /**
+     * hides the navigation buttons for the recommended movies poster when mouse exit
+     */
+    @FXML
+    private void hideRecommendedButtons(MouseEvent mouseEvent) {
+        hideButtonsOnExit(leftButtonRecomended, rightButtonRecomended);
+    }
 }
 
 

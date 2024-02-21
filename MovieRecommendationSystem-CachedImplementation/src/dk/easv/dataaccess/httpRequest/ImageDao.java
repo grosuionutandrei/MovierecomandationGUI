@@ -38,8 +38,35 @@ private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie
         imageService.start();
     }
 
+    public void getImage(ImageView imageView,String imagePath, Boolean isOriginal){
+        String path = "https://image.tmdb.org/t/p/original";
+        ImageService imageService = null;
+        if(imagePath.startsWith("default")){
+            imageService=new ImageService(noImageUrl);
+        }else{
+            imageService = new ImageService(path+imagePath);
+        }
 
+        ImageService finalImageService = imageService;
+        imageService.setOnSucceeded(e -> {
+            // This is called when the image download is successful
+            Image image =  finalImageService.getValue();
+            imageProperty.set(image);
+            imageView.imageProperty().bind(imageProperty);
+            // You can now use the image in your application, e.g., display it in an ImageView
+        });
+        imageService.setOnFailed(e -> {
+            // This is called if the image download fails
+            //  ExceptionHandler.displayErrorAlert(imageService.getException().toString(),"Image error");
 
+            imageProperty.set(new Image(defaultImage));
+        });
+        imageService.start();
+    }
 
 
 }
+
+
+
+
