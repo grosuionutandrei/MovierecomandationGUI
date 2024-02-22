@@ -36,9 +36,12 @@ public class LogInController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Movie Recommendation System 0.01 Beta");
+            addStageResizeListener(stage);
+            stage.setMaximized(true);
             stage.show();
             AppController controller = loader.getController();
             controller.setModel(model);
+
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load App.fxml");
@@ -54,8 +57,19 @@ public class LogInController implements Initializable {
         }
     }
 
+
+
     public void signUp(ActionEvent actionEvent) {
         System.out.println("Sign-Up");
     }
 
+    /**listener for the stage width and height values, will update the model viewPortWidthPropriety , in order to call the resize  function*/
+    private void addStageResizeListener(Stage stage){
+        stage.widthProperty().addListener((observable, oldValue, newValue) -> {
+            model.getViewPortWidthProperty().set(newValue.doubleValue());
+        });
+        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            model.getViewPortWidthProperty().set(newValue.doubleValue());
+        });
+   }
 }

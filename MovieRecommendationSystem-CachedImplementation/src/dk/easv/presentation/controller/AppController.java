@@ -1,11 +1,9 @@
 package dk.easv.presentation.controller;
-
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.components.LandingPoster.LandingImageController;
 import dk.easv.presentation.components.LandingPoster.LandingPoster;
-import dk.easv.presentation.components.moviePosterDisplayPanel.MoviesBanner;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.poster.Dimensions;
 import dk.easv.presentation.components.LandingPoster.LandingPosterDimensions;
@@ -120,8 +118,6 @@ public class AppController implements Initializable {
     private boolean isRightRecommendedPressed = false;
 
     private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance(1100, 600);
-//
-//    private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance();
     private void startTimer(String message) {
         timerStartMillis = System.currentTimeMillis();
         timerMsg = message;
@@ -143,7 +139,7 @@ public class AppController implements Initializable {
         imagesControlTopMoviesNotSeen = new ImagesControl(model.getObsTopMovieNotSeen());
         imagesControlTopMoviesSeen = new ImagesControl(model.getObsTopMovieSeen());
         topRecomendedMoviesImagesControl = new ImagesControl(model.recommendedMoviesList());
-        initializeWidthListener(model);
+        //initializeWidthListener(model);
         loadImages(imagesControlTopMoviesNotSeen, model, postersParent);
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
@@ -177,11 +173,13 @@ public class AppController implements Initializable {
      * @param model represents the model that is holding the observable var
      */
     private void initializeWidthListener(AppModel model) {
+
         scrollPaneFirstPoster.viewportBoundsProperty().addListener((observable, oldValue, newValue) -> {
             model.getViewPortWidthProperty().set(newValue.getWidth());
         });
 
     }
+
 
 
     /**
@@ -304,9 +302,7 @@ public class AppController implements Initializable {
 
     public void loadLandingPoster() throws MoviesException {
         List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
-
         LandingPoster landingPoster = new LandingPoster(movieData, true, this.model);
-        System.out.println("Inisde AppController : " + landingPoster.getImageView());
         model.addResizable(landingPoster);
         landingPosterStackPane.getChildren().add(landingPoster);
     }
@@ -345,13 +341,6 @@ public class AppController implements Initializable {
     @FXML
     private void hideRecommendedButtons(MouseEvent mouseEvent) {
         hideButtonsOnExit(leftButtonRecomended, rightButtonRecomended);
-    }
-
-    private void loadBannerTest(){
-        MoviesBanner moviesBanner =  new MoviesBanner(this.model);
-        System.out.println(moviesBanner.getLandingPageRoot());
-     //   moviesBanner.initializeMovieBanner();
-        landingPageContainer.getChildren().add(moviesBanner.getLandingPageRoot());
     }
 
 }

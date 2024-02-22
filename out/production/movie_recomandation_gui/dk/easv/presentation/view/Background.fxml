@@ -12,7 +12,7 @@
 
 <ScrollPane fx:id="layoutContainer" fitToWidth="true" hbarPolicy="ALWAYS" minHeight="500.0" minWidth="300.0" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: #141313;" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.AppController">
    <content>
-      <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
+      <VBox prefHeight="1500.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
             <HBox fx:id="landingPageContainer" alignment="CENTER" style="-fx-background-color: #141313;">
                <children>

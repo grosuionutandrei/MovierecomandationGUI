@@ -158,9 +158,8 @@ public class LandingPoster extends StackPane implements Resizable {
         ImageView imageViewNew = new ImageView();
         this.imageView = imageViewNew;
         imageViewList.add(imageViewNew);
-        model.addResizable(this);
+        //model.addResizable(this);
         getImage(this.imageView, movie.getBackdrop_path());
-//        System.out.println(this.imageView.getImage().getUrl());
     }
 
 
@@ -265,25 +264,17 @@ public class LandingPoster extends StackPane implements Resizable {
 
     @Override
     public void resizeImage(double x, double y) {
-        System.out.println("Hi");
         if (x >= 300) {
-            System.out.println("x: " + x);
-            double newWidth = (Poster_WIDTH + x) * 0.2;
-            double newHeight = (Poster_HEIGHT + x) * 0.2;
+            double newWidth = (Poster_WIDTH + x) * 0.35;
+            double newHeight = (Poster_HEIGHT + x) * 0.35;
             newWidth = Math.min(Poster_WIDTH, Math.max(MIN_WIDTH, newWidth));
             newHeight = Math.min(Poster_HEIGHT, Math.max(MIN_HEIGHT, newHeight));
             landingPosterDimensions.setWidth(newWidth);
             landingPosterDimensions.setHeight(newHeight);
-//            this.imageView.setFitWidth(newWidth);
-//            this.imageView.setFitHeight(newHeight);
-            System.out.println("Inside Resize: " + this.imageView);
-
             for (ImageView image: imageViewList) {
                 image.setFitWidth(newWidth);
                 image.setFitHeight(newHeight);
             }
-
-
         }
     }
 }
