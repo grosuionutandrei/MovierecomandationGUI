@@ -15,12 +15,12 @@
       <VBox prefHeight="1800.0" prefWidth="1100.0" style="-fx-background-color: #141313;">
          <children>
             <HBox fx:id="landingPageContainer" alignment="CENTER" style="-fx-background-color: #141313;">
-<!--               <children>-->
-<!--                  <StackPane fx:id="landingPosterStackPane" />-->
-<!--               </children>-->
-<!--               <VBox.margin>-->
-<!--                  <Insets bottom="10.0" top="5.0" />-->
-<!--               </VBox.margin>-->
+               <children>
+                  <StackPane fx:id="landingPosterStackPane" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="5.0" />
+               </VBox.margin>
             </HBox>
             <HBox fx:id="averageMoviesRecomandation" prefHeight="25.0" prefWidth="1086.0">
                <children>

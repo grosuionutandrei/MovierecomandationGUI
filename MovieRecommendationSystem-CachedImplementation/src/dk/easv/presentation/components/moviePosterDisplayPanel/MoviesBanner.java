@@ -6,10 +6,10 @@ import dk.easv.presentation.model.BridgeInterface;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,8 +18,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MoviesBanner  implements Resizable {
+public class MoviesBanner  implements Resizable, Initializable {
     private final int POSTER_WIDTH = 1100;
     private final int POSTER_HEIGHT = 600;
     private static final double MIN_WIDTH = 300; // Example minimum width
@@ -47,11 +49,10 @@ public class MoviesBanner  implements Resizable {
     private PauseTransition pauseTransition = new PauseTransition(Duration.seconds(10));
     public MoviesBanner(BridgeInterface bridgeInterface) {
         this.moviesBannerModel = new MoviesBannerModel(bridgeInterface);
-
         FXMLLoader loader  = new FXMLLoader(getClass().getResource("MoviesBanner.fxml"));
         try {
             bigPosterParent = loader.load();
-            initializeMovieBanner();
+
         } catch (IOException e) {
            e.printStackTrace();
             ExceptionHandler.displayErrorAlert(e.getMessage(),"Poster error");
@@ -78,13 +79,13 @@ public class MoviesBanner  implements Resizable {
         this.bigPosterImage.setPreserveRatio(false);
     }
 
-    private void setImage(Image image) {
+    private void setImage(int i) {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(500));
         fadeOut.setNode(bigPosterImage);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0.3);
         fadeOut.play();
-        this.bigPosterImage.setImage(image);
+        getImage(bigPosterImage, moviesBannerModel.getMoviesToDisplay().get(i).getPoster_path());
         FadeTransition fadeIn = new FadeTransition(Duration.millis(500));
         fadeIn.setNode(bigPosterImage);
         fadeIn.setFromValue(0.3);
@@ -98,7 +99,7 @@ public class MoviesBanner  implements Resizable {
            if(movieIndex==9){
                movieIndex=0;
            }
-            setImage(posterImages.get(movieIndex+=1));
+       //     setImage(posterImages.get(movieIndex+=1));
             rotate();
         }));
         pauseTransition.play();
@@ -111,25 +112,32 @@ public class MoviesBanner  implements Resizable {
 
 
     public void initializeMovieBanner(){
-        loadImagesInMemory();
+     loadImagesInMemory();
         if(this.posterImages!= null && !this.posterImages.isEmpty()){
             setLandingPosterDimensions(landingPosterDimensions.getWidth(), landingPosterDimensions.getHeight() );
             this.bigPosterImage.setImage(posterImages.get(0));
             rotate();
         }else {
+            setImage(0);
+            setLandingPosterDimensions(landingPosterDimensions.getWidth(), landingPosterDimensions.getHeight());
             System.out.println("not here");
         }
-        posterImages.addListener((ListChangeListener<Image>) change -> {
-            while (change.next()) {
-                if (change.wasAdded() || change.wasRemoved()) {
-                    // Respond to the change in size
-                    // For example, print the new size of the list
-                    System.out.println("The size of the images list is now: " + posterImages.size());
-                }
-            }
-        });
+//        posterImages.addListener((ListChangeListener<Image>) change -> {
+//            while (change.next()) {
+//                if (change.wasAdded() || change.wasRemoved()) {
+//                    // Respond to the change in size
+//                    // For example, print the new size of the list
+//                    System.out.println("The size of the images list is now: " + posterImages.size());
+//                }
+//            }
+//        });
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(bigPosterParent.getChildren().size());
+        initializeMovieBanner();
+    }
 }
 // load the images one by one and when it need s to be changed save it in the list and than check if is in the list, just retrieve , map will bw=e fastser

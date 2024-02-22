@@ -156,8 +156,8 @@ public class AppController implements Initializable {
         postersParentMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
-       // loadLandingPoster();
-        loadBannerTest();
+        loadLandingPoster();
+       // loadBannerTest();
     }
 
     private void bindbuttonsToResize() {

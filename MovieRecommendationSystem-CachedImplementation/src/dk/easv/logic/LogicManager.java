@@ -144,6 +144,7 @@ public class LogicManager {
 
 
     public void getMediaToBePlayed(VideoData videoData, HBox embededContainer, int[] dimensions) {
+
         mediaDao.getMedia(videoData.getSite(), embededContainer, videoData.getKey(), dimensions[0], dimensions[1]);
     }
 
