@@ -18,7 +18,6 @@ public class LandingImageController {
 
     public LandingImageController(List<TopMovie> topMovies){
         this.topMovies = topMovies;
-
     }
 
     private List<MovieSearchResponse> getTopTenMovies() throws MoviesException {

@@ -1,5 +1,4 @@
 package dk.easv.dataaccess.apiRequest.services;
-
 import com.google.gson.Gson;
 import dk.easv.dataaccess.ACCESS;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
@@ -11,8 +10,8 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class MultiSearch
@@ -27,8 +26,7 @@ public class MultiSearch
             httpRequest = HttpRequest.newBuilder()
                     .uri(new URL(buildURL(query)).toURI())
                     .header("Authorization", ACCESS.TMDB_KEY.getValue())
-                    .GET().build()
-                    ;
+                    .GET().build();
         } catch (URISyntaxException | UnsupportedEncodingException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +57,7 @@ public class MultiSearch
     /** Build URL from query which is our movie/series name */
     public String buildURL(String query) throws UnsupportedEncodingException {
         // We need to encode URL for in order to get proper results for queries which contains whitespace and special chars.
-        String encodedQuery = URLEncoder.encode(query, "UTF-8");
+        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         return baseURL + encodedQuery;
     }
 

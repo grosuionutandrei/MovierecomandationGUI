@@ -5,6 +5,7 @@ import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.components.LandingPoster.LandingImageController;
 import dk.easv.presentation.components.LandingPoster.LandingPoster;
+import dk.easv.presentation.components.moviePosterDisplayPanel.MoviesBanner;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.poster.Dimensions;
 import dk.easv.presentation.components.poster.ImagePoster;
@@ -71,8 +72,7 @@ public class AppController implements Initializable {
     /**
      * container for the landing page
      */
-    @FXML
-    private HBox landingPage;
+
     private LandingImageController landingImageController;
     @FXML
     private StackPane landingPosterStackPane;
@@ -145,7 +145,7 @@ public class AppController implements Initializable {
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
         bindbuttonsToResize();
         landingPageContainer.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
-        landingPosterStackPane.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        //landingPosterStackPane.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.setSpacing(15);
@@ -157,6 +157,7 @@ public class AppController implements Initializable {
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
        // loadLandingPoster();
+        loadBannerTest();
     }
 
     private void bindbuttonsToResize() {
@@ -339,6 +340,14 @@ public class AppController implements Initializable {
     private void hideRecommendedButtons(MouseEvent mouseEvent) {
         hideButtonsOnExit(leftButtonRecomended, rightButtonRecomended);
     }
+
+    private void loadBannerTest(){
+        MoviesBanner moviesBanner =  new MoviesBanner(this.model);
+        System.out.println(moviesBanner.getLandingPageRoot());
+     //   moviesBanner.initializeMovieBanner();
+        landingPageContainer.getChildren().add(moviesBanner.getLandingPageRoot());
+    }
+
 }
 
 

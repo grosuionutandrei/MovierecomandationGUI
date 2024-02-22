@@ -18,8 +18,7 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppModel {
-
+public class AppModel implements BridgeInterface {
     LogicManager logic = new LogicManager();
     ViewLogic viewLogic = new ViewLogic();
     private final ObservableList<User> obsUsers = FXCollections.observableArrayList();
@@ -175,9 +174,7 @@ public class AppModel {
     }
 
     public ObservableList<MovieData> recommendedMoviesList() {
-        ObservableList<MovieData> movieData = FXCollections.observableArrayList();
-        this.getObsTopMoviesSimilarUsers().forEach(elem -> movieData.add(elem.getMovie()));
-        return movieData;
+        return logic.getMovieDataFromSimilarUsers(this.obsLoggedInUser.get());
     }
 
 
@@ -214,6 +211,10 @@ public class AppModel {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
 
+    @Override
+    public User getLoggedUser() {
+        return this.obsLoggedInUser.get();
+    }
 }
 
 

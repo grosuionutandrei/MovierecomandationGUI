@@ -1,6 +1,4 @@
 package dk.easv.presentation.controller;
-
-import dk.easv.entities.User;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.model.AppModel;
 import javafx.event.ActionEvent;

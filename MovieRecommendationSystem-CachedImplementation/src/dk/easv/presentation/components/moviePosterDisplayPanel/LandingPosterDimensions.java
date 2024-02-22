@@ -1,23 +1,28 @@
-package dk.easv.presentation.components.poster;
+package dk.easv.presentation.components.moviePosterDisplayPanel;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Dimensions {
-    private final DoubleProperty width;
-    private final DoubleProperty height;
-    private static Dimensions instance;
-    public static Dimensions getInstance(double width,double height){
-     if(instance==null){
-         instance= new Dimensions(width,height);
-     }
-     return instance;
+public class LandingPosterDimensions {
+    private DoubleProperty width;
+    private DoubleProperty height;
+    private static LandingPosterDimensions instance;
+    public static LandingPosterDimensions getInstance(double width,double height){
+        if(instance==null){
+            instance= new LandingPosterDimensions(width,height);
+
+        }
+        return instance;
     }
 
-    private Dimensions(double width,double height) {
+
+
+    private LandingPosterDimensions(double width, double height) {
         this.width = new SimpleDoubleProperty(width);
         this.height = new SimpleDoubleProperty(height);
     }
+
+
 
     public double getWidth() {
         return width.get();
@@ -35,7 +40,7 @@ public class Dimensions {
         this.height.set(height);
     }
 
-    public static Dimensions getInstance() {
+    public static LandingPosterDimensions getInstance() {
         return instance;
     }
 

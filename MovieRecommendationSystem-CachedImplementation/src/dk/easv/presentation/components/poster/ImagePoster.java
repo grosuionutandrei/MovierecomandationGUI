@@ -34,7 +34,7 @@ public class ImagePoster extends VBox implements Resizable {
 
     public ImagePoster(MovieData movieData, AppModel model) {
         super();
-        this.setSpacing(10);
+        //this.setSpacing(10);
         this.movieData = movieData;
         this.posterStack = new StackPane();
         this.posterStack.setMaxWidth(dimensions.getWidth());
@@ -100,7 +100,6 @@ public class ImagePoster extends VBox implements Resizable {
 
         pauseTransition.setOnFinished(event -> {
             model.setSelectedMovie(movieData);
-            System.out.println(movieData);
             this.ratingContainer = new RatingPoster(model,this.dimensions);
             this.posterStack.getChildren().add(ratingContainer);
             StackPane.setAlignment(ratingContainer, Pos.BOTTOM_CENTER);
