@@ -108,11 +108,7 @@ public class AppModel implements BridgeInterface {
     private void addChangeListener() {
         this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
             Double newSize = (Double) newValue;
-            System.out.println(newSize);
-          //  if(newSize<1000){
-                resizeItems(newSize);
-        //    }
-
+            resizeItems(newSize);
         });
     }
 
@@ -141,7 +137,7 @@ public class AppModel implements BridgeInterface {
 
     private void addObjectListener() {
         this.videoData.addListener((observable, oldValue, newValue) -> {
-            if (newValue != null ) {
+            if (newValue != null) {
                 this.videoPlayer.updateView();
             }
         });
