@@ -8,6 +8,7 @@ import dk.easv.presentation.components.LandingPoster.LandingPoster;
 import dk.easv.presentation.components.moviePosterDisplayPanel.MoviesBanner;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.poster.Dimensions;
+import dk.easv.presentation.components.LandingPoster.LandingPosterDimensions;
 import dk.easv.presentation.components.poster.ImagePoster;
 import dk.easv.presentation.components.poster.ImagesControl;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -118,6 +119,9 @@ public class AppController implements Initializable {
     private boolean isRightNSeenPressed = false;
     private boolean isRightRecommendedPressed = false;
 
+    private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance(1100, 600);
+//
+//    private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance();
     private void startTimer(String message) {
         timerStartMillis = System.currentTimeMillis();
         timerMsg = message;
@@ -144,8 +148,8 @@ public class AppController implements Initializable {
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
         bindbuttonsToResize();
-        landingPageContainer.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
-        //landingPosterStackPane.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+        landingPageContainer.prefHeightProperty().bind(LandingPosterDimensions.getInstance().heightProperty().add(20));
+        landingPosterStackPane.prefHeightProperty().bind(LandingPosterDimensions.getInstance().heightProperty().add(20));
         topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.setSpacing(15);
@@ -300,7 +304,9 @@ public class AppController implements Initializable {
 
     public void loadLandingPoster() throws MoviesException {
         List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
-        LandingPoster landingPoster = new LandingPoster(movieData, true);
+
+        LandingPoster landingPoster = new LandingPoster(movieData, true, this.model);
+        System.out.println("Inisde AppController : " + landingPoster.getImageView());
         model.addResizable(landingPoster);
         landingPosterStackPane.getChildren().add(landingPoster);
     }

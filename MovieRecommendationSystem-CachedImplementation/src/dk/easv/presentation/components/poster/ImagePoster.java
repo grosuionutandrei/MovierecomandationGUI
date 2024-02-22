@@ -18,8 +18,8 @@ import javafx.util.Duration;
 
 
 public class ImagePoster extends VBox implements Resizable {
-    private final int MAX_WIDTH = 200;
-    private final int MAX_HEIGHT = 250;
+    private final int MAX_WIDTH = 500;
+    private final int MAX_HEIGHT = 400;
 
     private final int MIN_WIDTH = 100;
     private final int MIN_HEIGHT = 100;

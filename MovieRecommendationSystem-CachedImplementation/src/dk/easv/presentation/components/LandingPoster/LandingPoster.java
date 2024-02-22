@@ -2,7 +2,9 @@ package dk.easv.presentation.components.LandingPoster;
 
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.httpRequest.ImageDao;
+import dk.easv.presentation.components.poster.Dimensions;
 import dk.easv.presentation.listeners.Resizable;
+import dk.easv.presentation.model.AppModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
@@ -30,6 +32,8 @@ import java.util.List;
 public class LandingPoster extends StackPane implements Resizable {
     @FXML
     private ImageView imageView;
+
+    private List<ImageView> imageViewList = new ArrayList<>();
     @FXML
     private Rectangle rectangle;
     @FXML
@@ -47,8 +51,8 @@ public class LandingPoster extends StackPane implements Resizable {
 
     @FXML
     private StackPane innerStackPane;
-    private final int Poster_WIDTH = 1100;
-    private final int Poster_HEIGHT = 600;
+    private static final int Poster_WIDTH = 1100;
+    private static final int Poster_HEIGHT = 600;
 
     private static final double MIN_WIDTH = 300; // Example minimum width
     private static final double MIN_HEIGHT = 200;
@@ -58,19 +62,28 @@ public class LandingPoster extends StackPane implements Resizable {
 
     private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance(Poster_WIDTH, Poster_HEIGHT);
 
+    private AppModel model;
+
     private PauseTransition pauseTransition = new PauseTransition(Duration.seconds(10));
 
     private List<StackPane> stackPaneList = new ArrayList<>();
 
 
-    public LandingPoster(List<MovieSearchResponse> movieSearchResponseList, Boolean isLandingPoster) {
+    public LandingPoster(List<MovieSearchResponse> movieSearchResponseList, Boolean isLandingPoster, AppModel model) {
 
         super();
+        this.model = model;
+//        this.imageView = new ImageView();
         // get all the movies
         List<MovieSearchResponse> movieList = new ArrayList<>(movieSearchResponseList);
         // set all the movies
         setAllMovies(movieList);
 
+    }
+
+    public ImageView getImageView() {
+        System.out.println(imageView);
+        return imageView;
     }
 
     private void setAllMovies(List<MovieSearchResponse> movieList) {
@@ -107,7 +120,11 @@ public class LandingPoster extends StackPane implements Resizable {
         callFade(fadeIndex);
 
     }
-
+    private void bindSizeToDimensions() {
+        System.out.println(landingPosterDimensions.getHeight());
+        this.prefHeightProperty().bind(landingPosterDimensions.heightProperty());
+        this.prefWidthProperty().bind(landingPosterDimensions.widthProperty());
+    }
     private StackPane setMovie(MovieSearchResponse movie) {
         // StackPane to stack everything on image
         StackPane innerStackPane = new StackPane();
@@ -115,6 +132,7 @@ public class LandingPoster extends StackPane implements Resizable {
         // setting up movie components
         setImage(movie);
         setLandingPosterDimensions(landingPosterDimensions.getWidth(), landingPosterDimensions.getHeight());
+        bindSizeToDimensions();
         setRectangle();
         setParentVBox();
         setTitle(movie);
@@ -137,9 +155,12 @@ public class LandingPoster extends StackPane implements Resizable {
     }
 
     private void setImage(MovieSearchResponse movie) {
-        this.imageView = new ImageView();
+        ImageView imageViewNew = new ImageView();
+        this.imageView = imageViewNew;
+        imageViewList.add(imageViewNew);
+        model.addResizable(this);
         getImage(this.imageView, movie.getBackdrop_path());
-
+//        System.out.println(this.imageView.getImage().getUrl());
     }
 
 
@@ -244,15 +265,25 @@ public class LandingPoster extends StackPane implements Resizable {
 
     @Override
     public void resizeImage(double x, double y) {
+        System.out.println("Hi");
         if (x >= 300) {
+            System.out.println("x: " + x);
             double newWidth = (Poster_WIDTH + x) * 0.2;
             double newHeight = (Poster_HEIGHT + x) * 0.2;
             newWidth = Math.min(Poster_WIDTH, Math.max(MIN_WIDTH, newWidth));
             newHeight = Math.min(Poster_HEIGHT, Math.max(MIN_HEIGHT, newHeight));
             landingPosterDimensions.setWidth(newWidth);
             landingPosterDimensions.setHeight(newHeight);
-            this.imageView.setFitWidth(newWidth);
-            this.imageView.setFitHeight(newHeight);
+//            this.imageView.setFitWidth(newWidth);
+//            this.imageView.setFitHeight(newHeight);
+            System.out.println("Inside Resize: " + this.imageView);
+
+            for (ImageView image: imageViewList) {
+                image.setFitWidth(newWidth);
+                image.setFitHeight(newHeight);
+            }
+
+
         }
     }
 }
