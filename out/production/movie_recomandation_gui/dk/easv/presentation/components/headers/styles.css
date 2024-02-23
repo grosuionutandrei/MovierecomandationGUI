@@ -1,0 +1,40 @@
+.headers {
+    -fx-font-family: "Arial";
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8f9090; /* Set the text color */
+    -fx-padding: 0 0 0 20px;
+}
+
+/* styles.css */
+.scroll-pane {
+    -fx-background-color: #141313;
+}
+
+/* Track */
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+/* Thumb (the draggable part of the scroll bar) */
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #7c7979; /* Set a grayish color for the thumb */
+    -fx-background-radius: 5px; /* Set the corner radius for a rounded look */
+}
+
+/* Increase and Decrease buttons (optional) */
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+/* Hover effect for the thumb */
+.scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: #555555; /* Set a different grayish color when hovered */
+}
+
+.movie-box{
+    /*-fx-padding: 5px;*/
+    -fx-border-insets: 0 0 0 10px;
+    /*-fx-background-insets: 5px;*/
+}
