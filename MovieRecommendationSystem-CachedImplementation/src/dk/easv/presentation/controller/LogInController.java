@@ -1,6 +1,7 @@
 package dk.easv.presentation.controller;
 import dk.easv.exceptions.MoviesException;
 import dk.easv.presentation.model.AppModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,7 @@ public class LogInController implements Initializable {
     @FXML private PasswordField passwordField;
     @FXML private TextField userId;
     private AppModel model;
-
+    private Stage currentStage;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new AppModel();
@@ -41,7 +42,7 @@ public class LogInController implements Initializable {
             stage.show();
             AppController controller = loader.getController();
             controller.setModel(model);
-
+            currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load App.fxml");
@@ -71,5 +72,14 @@ public class LogInController implements Initializable {
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
             model.getViewPortWidthProperty().set(newValue.doubleValue());
         });
+        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+            Platform.runLater(() -> {
+                model.getViewPortWidthProperty().set(stage.getWidth());
+            });
+        });
    }
+
+    public void getStage(Stage primaryStage) {
+        currentStage=primaryStage;
+    }
 }

@@ -1,5 +1,4 @@
 package dk.easv.presentation.components.poster;
-
 import dk.easv.dataaccess.httpRequest.ImageDao;
 import dk.easv.entities.MovieData;
 import dk.easv.presentation.listeners.Resizable;
@@ -8,7 +7,6 @@ import dk.easv.presentation.components.ratingPoster.RatingPoster;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Priority;
@@ -34,7 +32,6 @@ public class ImagePoster extends VBox implements Resizable {
 
     public ImagePoster(MovieData movieData, AppModel model) {
         super();
-        //this.setSpacing(10);
         this.movieData = movieData;
         this.posterStack = new StackPane();
         this.posterStack.setMaxWidth(dimensions.getWidth());

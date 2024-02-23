@@ -108,7 +108,7 @@ public class AppModel implements BridgeInterface {
     private void addChangeListener() {
         this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
             Double newSize = (Double) newValue;
-            resizeItems(newSize);
+                resizeItems(newSize);
         });
     }
 

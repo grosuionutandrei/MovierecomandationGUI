@@ -144,8 +144,10 @@ public class AppController implements Initializable {
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
         bindbuttonsToResize();
+
         landingPageContainer.prefHeightProperty().bind(LandingPosterDimensions.getInstance().heightProperty().add(20));
         landingPosterStackPane.prefHeightProperty().bind(LandingPosterDimensions.getInstance().heightProperty().add(20));
+
         topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         recommendedMoviesPostersParent.setSpacing(15);
@@ -157,7 +159,6 @@ public class AppController implements Initializable {
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
         loadLandingPoster();
-       // loadBannerTest();
     }
 
     private void bindbuttonsToResize() {
@@ -173,14 +174,11 @@ public class AppController implements Initializable {
      * @param model represents the model that is holding the observable var
      */
     private void initializeWidthListener(AppModel model) {
-
         scrollPaneFirstPoster.viewportBoundsProperty().addListener((observable, oldValue, newValue) -> {
             model.getViewPortWidthProperty().set(newValue.getWidth());
         });
 
     }
-
-
 
     /**
      * Loads initial movies to the scrollPane
@@ -344,5 +342,4 @@ public class AppController implements Initializable {
     }
 
 }
-
 

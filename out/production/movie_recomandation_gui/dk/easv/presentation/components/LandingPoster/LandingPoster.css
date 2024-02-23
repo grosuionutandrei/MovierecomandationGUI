@@ -27,3 +27,6 @@
     -fx-background-color: #024b64; /* Red background on hover */
 
 }
+.stackPaneParent{
+    -fx-border-color: red;
+}

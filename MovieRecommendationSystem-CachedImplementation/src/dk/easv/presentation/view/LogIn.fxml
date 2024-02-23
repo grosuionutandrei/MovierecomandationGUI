@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.LogInController">
+<BorderPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.presentation.controller.LogInController">
    <center>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="454.0">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="454.0" style="-fx-background-color: #141313;">
          <children>
             <GridPane layoutX="104.0" layoutY="49.0" prefHeight="110.0" prefWidth="245.0">
                <columnConstraints>
@@ -22,7 +22,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <PasswordField disable="true" fx:id="passwordField" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="passwordField" disable="true" GridPane.rowIndex="1" />
                   <TextField fx:id="userId" text="Georgi Facello" />
                </children>
             </GridPane>
@@ -35,8 +35,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#logIn" text="log - in" />
-                  <Button mnemonicParsing="false" onAction="#signUp" text="Sig - Up" GridPane.columnIndex="1" />
+                  <MFXButton buttonType="RAISED" depthLevel="LEVEL3" onAction="#logIn" rippleColor="#00c9c8" text="Login" />
+                  <MFXButton buttonType="RAISED" depthLevel="LEVEL3" rippleColor="#00c9c8" text="Sign-up" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>

@@ -2,7 +2,6 @@ package dk.easv.presentation.components.LandingPoster;
 
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.httpRequest.ImageDao;
-import dk.easv.presentation.components.poster.Dimensions;
 import dk.easv.presentation.listeners.Resizable;
 import dk.easv.presentation.model.AppModel;
 import javafx.animation.FadeTransition;
@@ -34,6 +33,8 @@ public class LandingPoster extends StackPane implements Resizable {
     private ImageView imageView;
 
     private List<ImageView> imageViewList = new ArrayList<>();
+    private List<Label> titleLabels = new ArrayList<>();
+    private List<Label> descriptionLabels = new ArrayList<>();
     @FXML
     private Rectangle rectangle;
     @FXML
@@ -51,11 +52,12 @@ public class LandingPoster extends StackPane implements Resizable {
 
     @FXML
     private StackPane innerStackPane;
+    private double boldValue = 50;
     private static final int Poster_WIDTH = 1100;
     private static final int Poster_HEIGHT = 600;
 
-    private static final double MIN_WIDTH = 300; // Example minimum width
-    private static final double MIN_HEIGHT = 200;
+    private static final double MIN_WIDTH = 150; // Example minimum width
+    private static final double MIN_HEIGHT = 100;
     private List<FadeTransition> fades = new ArrayList<>();
     private int imageIndex = 0;
     private int fadeIndex = 0;
@@ -73,18 +75,14 @@ public class LandingPoster extends StackPane implements Resizable {
 
         super();
         this.model = model;
-//        this.imageView = new ImageView();
-        // get all the movies
+        this.getStyleClass().add("stackPaneParent");
+        // get all the movie
         List<MovieSearchResponse> movieList = new ArrayList<>(movieSearchResponseList);
         // set all the movies
         setAllMovies(movieList);
 
     }
 
-    public ImageView getImageView() {
-        System.out.println(imageView);
-        return imageView;
-    }
 
     private void setAllMovies(List<MovieSearchResponse> movieList) {
 
@@ -120,11 +118,12 @@ public class LandingPoster extends StackPane implements Resizable {
         callFade(fadeIndex);
 
     }
+
     private void bindSizeToDimensions() {
-        System.out.println(landingPosterDimensions.getHeight());
         this.prefHeightProperty().bind(landingPosterDimensions.heightProperty());
         this.prefWidthProperty().bind(landingPosterDimensions.widthProperty());
     }
+
     private StackPane setMovie(MovieSearchResponse movie) {
         // StackPane to stack everything on image
         StackPane innerStackPane = new StackPane();
@@ -132,7 +131,7 @@ public class LandingPoster extends StackPane implements Resizable {
         // setting up movie components
         setImage(movie);
         setLandingPosterDimensions(landingPosterDimensions.getWidth(), landingPosterDimensions.getHeight());
-        bindSizeToDimensions();
+        //bindSizeToDimensions();
         setRectangle();
         setParentVBox();
         setTitle(movie);
@@ -156,9 +155,8 @@ public class LandingPoster extends StackPane implements Resizable {
 
     private void setImage(MovieSearchResponse movie) {
         ImageView imageViewNew = new ImageView();
-        this.imageView = imageViewNew;
         imageViewList.add(imageViewNew);
-        //model.addResizable(this);
+        this.imageView = imageViewNew;
         getImage(this.imageView, movie.getBackdrop_path());
     }
 
@@ -195,23 +193,24 @@ public class LandingPoster extends StackPane implements Resizable {
     }
 
     private void setTitle(MovieSearchResponse movie) {
-        this.titleLabel = new Label();
-        titleLabel.setText(movie.getTitle());
-        titleLabel.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, 50));
-        titleLabel.setStyle("-fx-text-fill: #ddd7d7");
-
-
+        Label newTitle = new Label();
+        newTitle.setText(movie.getTitle());
+        newTitle.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, boldValue));
+        newTitle.setStyle("-fx-text-fill: #ddd7d7");
+        this.titleLabels.add(newTitle);
+        this.titleLabel = newTitle;
     }
 
     private void setDescription(MovieSearchResponse movie) {
-        this.descLabel = new Label();
-        descLabel.setText(movie.getOverview());
-        descLabel.setFont(Font.font("Hack", FontWeight.BOLD, 17));
-        descLabel.setStyle("-fx-text-fill: #a1a1a1");
-        descLabel.setMaxWidth(400);
-        descLabel.setMaxHeight(100);
-        descLabel.setWrapText(true);
-
+        Label newDescription = new Label();
+        newDescription.setText(movie.getOverview());
+        newDescription.setFont(Font.font("Hack", FontWeight.BOLD, 17));
+        newDescription.setStyle("-fx-text-fill: #a1a1a1");
+        newDescription.setMaxWidth(400);
+        newDescription.setMaxHeight(100);
+        newDescription.setWrapText(true);
+        descriptionLabels.add(newDescription);
+        this.descLabel = newDescription;
     }
 
     private void setButtonsHBox() {
@@ -265,16 +264,39 @@ public class LandingPoster extends StackPane implements Resizable {
     @Override
     public void resizeImage(double x, double y) {
         if (x >= 300) {
-            double newWidth = (Poster_WIDTH + x) * 0.35;
-            double newHeight = (Poster_HEIGHT + x) * 0.35;
+            double newWidth = x * 0.9;
+            double newHeight = x * 0.45;
             newWidth = Math.min(Poster_WIDTH, Math.max(MIN_WIDTH, newWidth));
             newHeight = Math.min(Poster_HEIGHT, Math.max(MIN_HEIGHT, newHeight));
             landingPosterDimensions.setWidth(newWidth);
             landingPosterDimensions.setHeight(newHeight);
-            for (ImageView image: imageViewList) {
+            for (ImageView image : imageViewList) {
                 image.setFitWidth(newWidth);
                 image.setFitHeight(newHeight);
             }
+            for (Label label : titleLabels) {
+                double newValue = scaleWidthToRange(x, 300, Poster_WIDTH, 20, 50);
+                label.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, newValue));
+            }
         }
     }
+
+
+    /**
+     * Scales the stage width linearly to a value in the range [20, 50].
+     *
+     * @param width    The current width of the stage.
+     * @param minWidth The minimum expected width of the stage.
+     * @param maxWidth The maximum expected width of the stage.
+     * @param minScale The minimum value of the scaled range.
+     * @param maxScale The maximum value of the scaled range.
+     * @return The width scaled to a value between 20 and 50.
+     */
+    private double scaleWidthToRange(double width, double minWidth, double maxWidth, double minScale, double maxScale) {
+        width = Math.max(minWidth, Math.min(width, maxWidth));
+        return minScale + (width - minWidth) / (maxWidth - minWidth) * (maxScale - minScale);
+    }
+
+
 }
+
