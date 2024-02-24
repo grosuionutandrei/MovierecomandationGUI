@@ -9,7 +9,7 @@ import java.util.List;
 public class ImageDao {
     private SimpleObjectProperty<Image> imageProperty ;
    private List<Image> images = new ArrayList<>();
-    private String noImageUrl = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholder.png";
+    private String noImageUrl = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholdercar.png";
 private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/default.png";
     public ImageDao()
     {
