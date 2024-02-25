@@ -11,15 +11,22 @@
     -fx-text-overrun: ellipsis;
 }
 .playButton{
-    -fx-background-color: #00c9c8;
-    -fx-text-fill:#141313;
-    -fx-border-color:  #00c9c8;
-    -fx-border-radius: 10%;
+    -fx-pref-width: 40;
+    -fx-pref-height: 20;
+    -fx-text-fill:#f06071;
     -mfx-ripple-radius: 25;
-    -mfx-ripple-color:#00c9c8;
     -mfx-auto-clip: true;
     -fx-opacity: 1;
+    -fx-background-color: transparent;
+    -fx-border-color: #024B64FF; /* Thin black border */
+    -fx-border-width: 1; /* Border width */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 5;
+}
 
+.playButton:hover{
+    -fx-background-color: #024b64;
 }
 
 

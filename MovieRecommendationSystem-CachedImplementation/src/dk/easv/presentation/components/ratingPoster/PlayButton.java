@@ -64,9 +64,6 @@ public class PlayButton extends MFXButton {
                 modal.initStyle(StageStyle.UNDECORATED);
                 modal.setScene(scene);
                 playWindowController.getNewStage(scene,modal);
-
-
-              //  modal.show();
             } catch (IOException ex) {
                 ex.getStackTrace();
                 ExceptionHandler.displayErrorAlert(ex.getMessage(), null);

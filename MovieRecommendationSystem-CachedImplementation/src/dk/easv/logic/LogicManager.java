@@ -179,17 +179,5 @@ public class LogicManager {
         return movieSearchResponses;
     }
 
-    public ObservableList<Image> getMoviesPosters(ObservableList<MovieSearchResponse> moviesToDisplay) {
-        List<Image> movieImages = new ArrayList<>();
-        ObservableList<Image> observableList = FXCollections.observableArrayList();
-        for (MovieSearchResponse mvsr : moviesToDisplay) {
-            imageDao.getImage(movieImages, mvsr.getBackdrop_path(), true);
-        }
-        System.out.println(movieImages.size()+"in logic");
-        if (!movieImages.isEmpty()) {
-            observableList.setAll(movieImages);
-            return observableList;
-        }
-        return observableList;
-    }
+
 }

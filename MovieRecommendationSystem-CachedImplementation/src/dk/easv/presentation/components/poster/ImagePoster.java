@@ -1,5 +1,5 @@
 package dk.easv.presentation.components.poster;
-import dk.easv.dataaccess.httpRequest.ImageDao;
+import dk.easv.presentation.components.poster.data.ImageDao;
 import dk.easv.entities.MovieData;
 import dk.easv.presentation.listeners.Resizable;
 import dk.easv.presentation.model.AppModel;
@@ -40,8 +40,7 @@ public class ImagePoster extends VBox implements Resizable {
         this.imageView.getStyleClass().add("image-view");
         this.getStyleClass().add("poster");
         this.setAlignment(Pos.CENTER);
-        ImageDao imageDao = new ImageDao();
-        imageDao.getImage(this.imageView, this.movieData.getImageUrl());
+        getImageFromTmdbAPi();
         setDimensions(dimensions.getWidth(), dimensions.getHeight());
         this.posterStack.getChildren().add(this.imageView);
         setOnHover();
@@ -49,6 +48,11 @@ public class ImagePoster extends VBox implements Resizable {
         bindSizeToDimensions();
         this.model=model;
         VBox.setVgrow(this, Priority.ALWAYS);
+    }
+
+    private void getImageFromTmdbAPi() {
+        ImageDao imageDao = new ImageDao();
+        imageDao.getImage(this.imageView, this.movieData.getImageUrl());
     }
 
 

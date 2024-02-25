@@ -1,14 +1,15 @@
-package dk.easv.dataaccess.httpRequest;
+package dk.easv.presentation.components.poster.data;
+
 import dk.easv.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageDao {
     private SimpleObjectProperty<Image> imageProperty ;
-   private List<Image> images = new ArrayList<>();
     private String noImageUrl = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholdercar.png";
 private String defaultImage ="file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/default.png";
     public ImageDao()

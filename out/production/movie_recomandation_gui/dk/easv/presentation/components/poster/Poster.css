@@ -1,16 +1,31 @@
-.poster{
--fx-alignment: center;
-    -fx-border-color: blue;
+.root {
+    -fx-border-image-color: #024b64;
+}
+
+.poster  {
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(50, 50, 50, 0.5), 10, 0.0, 0, 5);
 
 }
 
-.postersParent{
-    -fx-background-color:#00c9c8;
+.postersParent {
+    -fx-background-color: #00c9c8;
     -fx-spacing: 20;
 }
-.image-view{
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 10);
-    -fx-border-color: blue;
+
+.image-view {
+    //-fx-border-radius: 10%;
+    //-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 10);
 }
-.posterStack{
+
+.image-view > image {
+    -fx-border-radius: 10%;
+    -fx-background-color: pink;
 }
+
+.poster:hover {
+    -fx-border-color: #024b64;
+    -fx-effect: dropshadow(three-pass-box, rgba(2, 75, 100, 0.8), 10, 0, 0, 10);
+}
+
+

@@ -1,7 +1,11 @@
+.titleLabel{
+    -fx-text-fill: #f06071;
+}
+
 .watch-online-button {
     -fx-border-color: #024B64FF;
     -fx-background-color: #024B64FF;
-    -fx-text-fill: white;
+    -fx-text-fill: #f06071;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
     -fx-padding: 5; /* Padding between border and content */
@@ -24,9 +28,11 @@
 }
 
 .more-button:hover {
-    -fx-background-color: #024b64; /* Red background on hover */
+    -fx-background-color: #024b64;
 
 }
 .stackPaneParent{
     -fx-border-color: red;
 }
+
+

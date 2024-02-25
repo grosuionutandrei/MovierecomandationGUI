@@ -34,7 +34,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="topRecomendedMovies" alignment="CENTER" style="-fx-background-color: #141313;">
+            <HBox fx:id="topRecomendedMovies" alignment="CENTER" styleClass="topRecomededMovies">
                <children>
                   <StackPane fx:id="topMoviesFromSimilarUsers" onMouseEntered="#showRecommendedButtons" onMouseExited="#hideRecommendedButtons" style="-fx-background-color: #141313;" styleClass="stackPaneParent">
                      <children>

@@ -196,7 +196,7 @@ public class LandingPoster extends StackPane implements Resizable {
         Label newTitle = new Label();
         newTitle.setText(movie.getTitle());
         newTitle.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, boldValue));
-        newTitle.setStyle("-fx-text-fill: #ddd7d7");
+        newTitle.setStyle("-fx-text-fill: #f06071");
         this.titleLabels.add(newTitle);
         this.titleLabel = newTitle;
     }
@@ -205,7 +205,7 @@ public class LandingPoster extends StackPane implements Resizable {
         Label newDescription = new Label();
         newDescription.setText(movie.getOverview());
         newDescription.setFont(Font.font("Hack", FontWeight.BOLD, 17));
-        newDescription.setStyle("-fx-text-fill: #a1a1a1");
+        newDescription.setStyle("-fx-text-fill: #f06071");
         newDescription.setMaxWidth(400);
         newDescription.setMaxHeight(100);
         newDescription.setWrapText(true);

@@ -1,9 +1,15 @@
-.stackPaneParent{
-    /*-fx-border-color: pink;*/
+.root{
+    -fx-primary-color:#141313;
 }
+
 .groupParent{
-    /*-fx-border-color: purple;*/
+    -fx-background-color: -fx-primary-color;
+
 }
 .scrollPaneParent{
 
+}
+
+.topRecomededMovies{
+    -fx-background-color: -fx-primary-color;
 }

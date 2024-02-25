@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppModel implements BridgeInterface {
+public class AppModel {
     LogicManager logic = new LogicManager();
     ViewLogic viewLogic = new ViewLogic();
     private final ObservableList<User> obsUsers = FXCollections.observableArrayList();
@@ -108,7 +108,7 @@ public class AppModel implements BridgeInterface {
     private void addChangeListener() {
         this.viewPortWidth.addListener((observable, oldValue, newValue) -> {
             Double newSize = (Double) newValue;
-                resizeItems(newSize);
+            resizeItems(newSize);
         });
     }
 
@@ -210,10 +210,6 @@ public class AppModel implements BridgeInterface {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
 
-    @Override
-    public User getLoggedUser() {
-        return this.obsLoggedInUser.get();
-    }
 }
 
 
