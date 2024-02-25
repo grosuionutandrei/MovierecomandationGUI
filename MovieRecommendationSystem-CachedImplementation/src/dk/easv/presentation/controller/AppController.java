@@ -225,17 +225,17 @@ public class AppController implements Initializable {
         right.prefHeightProperty().bind(Dimensions.getInstance().heightProperty());
     }
 
-
+/**show navigation buttons for the seen movies*/
     @FXML
     private void showButtons(MouseEvent mouseEvent) {
         showButtonsOnHover(isRightPressed, leftButton, rightButton);
     }
 
 
+    /** hide navigation buttons for the seen movies*/
     @FXML
     private void hideButtons(MouseEvent mouseEvent) {
-        this.rightButton.setVisible(false);
-        this.leftButton.setVisible(false);
+        hideButtonsOnExit(this.rightButton,this.leftButton);
     }
 
     @FXML

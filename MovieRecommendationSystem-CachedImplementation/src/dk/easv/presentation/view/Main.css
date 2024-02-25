@@ -1,5 +1,6 @@
 .root{
     -fx-primary-color:#141313;
+-fx-testColor:red;
 }
 
 .groupParent{
@@ -11,5 +12,9 @@
 }
 
 .topRecomededMovies{
-    -fx-background-color: -fx-primary-color;
+    -fx-background-color:#141313;
+}
+.navigationalButtons{
+    -fx-text-fill:#f06071;
+    -fx-background-color:#141313;
 }
