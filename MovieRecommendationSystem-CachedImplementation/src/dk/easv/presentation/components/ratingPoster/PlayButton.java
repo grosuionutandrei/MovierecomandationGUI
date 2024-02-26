@@ -1,7 +1,5 @@
 package dk.easv.presentation.components.ratingPoster;
-
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
-import dk.easv.dataaccess.httpRequest.Search;
 import dk.easv.exceptions.ExceptionHandler;
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.components.playwindow.PlayWindowController;
@@ -33,8 +31,7 @@ public class PlayButton extends MFXButton {
     private void setOnAction() {
         this.setOnMouseClicked(e -> {
             Thread test = new Thread(() -> {
-                Search search = new Search();
-                List<VideoData> data = new Search().movieResponses(model.getSelectedMovie().getTmdbId());
+                List<VideoData> data = model.getVideoData(model.getSelectedMovie().getTmdbId());
                 Platform.runLater(() -> {
                             if (data != null && (!data.isEmpty())) {
                                 model.setVideoData(data.get(0));

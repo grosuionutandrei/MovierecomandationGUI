@@ -1,4 +1,5 @@
 package dk.easv.presentation.controller;
+
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
@@ -10,6 +11,9 @@ import dk.easv.presentation.components.LandingPoster.LandingPosterDimensions;
 import dk.easv.presentation.components.poster.ImagePoster;
 import dk.easv.presentation.components.poster.ImagesControl;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +22,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
@@ -118,6 +123,7 @@ public class AppController implements Initializable {
     private boolean isRightRecommendedPressed = false;
 
     private LandingPosterDimensions landingPosterDimensions = LandingPosterDimensions.getInstance(1100, 600);
+
     private void startTimer(String message) {
         timerStartMillis = System.currentTimeMillis();
         timerMsg = message;
@@ -139,7 +145,6 @@ public class AppController implements Initializable {
         imagesControlTopMoviesNotSeen = new ImagesControl(model.getObsTopMovieNotSeen());
         imagesControlTopMoviesSeen = new ImagesControl(model.getObsTopMovieSeen());
         topRecomendedMoviesImagesControl = new ImagesControl(model.recommendedMoviesList());
-        //initializeWidthListener(model);
         loadImages(imagesControlTopMoviesNotSeen, model, postersParent);
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
@@ -149,17 +154,19 @@ public class AppController implements Initializable {
         landingPosterStackPane.prefHeightProperty().bind(LandingPosterDimensions.getInstance().heightProperty().add(20));
 
         topRecomendedMovies.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+
         recommendedMoviesPostersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
-        recommendedMoviesPostersParent.setSpacing(15);
-        postersParent.setSpacing(15);
-        postersParentMoviesSeen.setSpacing(15);
+        setSpacingBetweenPosters(15);
         postersParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+
         posterRootParent.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         postersParentMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
+
         topMoviesSeen.prefHeightProperty().bind(Dimensions.getInstance().heightProperty().add(20));
         landingImageController = new LandingImageController(model.getObsTopMoviesSimilarUsers());
         loadLandingPoster();
     }
+
 
     private void bindbuttonsToResize() {
         bindButtonsToResize(this.leftButton, this.rightButton);
@@ -196,11 +203,8 @@ public class AppController implements Initializable {
      * Moves the scrollPane view to the left
      */
     public void toTheLeft(ActionEvent event) {
-        double viewportWidth = this.scrollPaneFirstPoster.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneFirstPoster.getContent().prefWidth(-1);
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.max(0.0, this.scrollPaneFirstPoster.getHvalue() - moveNormalized);
-        this.scrollPaneFirstPoster.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(this.scrollPaneFirstPoster, false);
+        applySmoothEffect(null, newHvalue, this.scrollPaneFirstPoster);
     }
 
 
@@ -211,11 +215,8 @@ public class AppController implements Initializable {
         isRightPressed = true;
         this.leftButton.setVisible(true);
         loadImages(imagesControlTopMoviesNotSeen, model, postersParent);
-        double viewportWidth = this.scrollPaneFirstPoster.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneFirstPoster.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.min(1.0, Math.max(0.0, this.scrollPaneFirstPoster.getHvalue() + moveNormalized));
-        this.scrollPaneFirstPoster.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(scrollPaneFirstPoster, true);
+        applySmoothEffect(null, newHvalue, scrollPaneFirstPoster);
     }
 
     private void bindButtonsToResize(Button left, Button right) {
@@ -225,39 +226,44 @@ public class AppController implements Initializable {
         right.prefHeightProperty().bind(Dimensions.getInstance().heightProperty());
     }
 
-/**show navigation buttons for the seen movies*/
+    /**
+     * show navigation buttons for the seen movies
+     */
     @FXML
     private void showButtons(MouseEvent mouseEvent) {
         showButtonsOnHover(isRightPressed, leftButton, rightButton);
     }
 
 
-    /** hide navigation buttons for the seen movies*/
+    /**
+     * hide navigation buttons for the seen movies
+     */
     @FXML
     private void hideButtons(MouseEvent mouseEvent) {
-        hideButtonsOnExit(this.rightButton,this.leftButton);
+        hideButtonsOnExit(this.rightButton, this.leftButton);
     }
 
+    /**
+     * loads the seen movie and move the scroll bar to the right
+     */
     @FXML
     private void toTheRightNSeen(ActionEvent event) {
         isRightNSeenPressed = true;
         this.leftButtonNSeen.setVisible(true);
         loadImages(imagesControlTopMoviesSeen, model, postersParentMoviesSeen);
-        double viewportWidth = this.scrollPaneMoviesSeen.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneMoviesSeen.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.min(1.0, Math.max(0.0, this.scrollPaneMoviesSeen.getHvalue() + moveNormalized));
-        this.scrollPaneMoviesSeen.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(this.scrollPaneMoviesSeen, true);
+        applySmoothEffect(null, newHvalue, this.scrollPaneMoviesSeen);
     }
 
+    /**
+     * loads the seen movie and move the scroll bar to the left
+     */
     @FXML
     private void toTheLeftNSeen(ActionEvent event) {
-        double viewportWidth = this.scrollPaneMoviesSeen.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneMoviesSeen.getContent().prefWidth(-1);
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.max(0.0, this.scrollPaneMoviesSeen.getHvalue() - moveNormalized);
-        this.scrollPaneMoviesSeen.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(this.scrollPaneMoviesSeen, false);
+        applySmoothEffect(null, newHvalue, this.scrollPaneMoviesSeen);
     }
+
 
     @FXML
     private void showSeenButton(MouseEvent mouseEvent) {
@@ -298,6 +304,10 @@ public class AppController implements Initializable {
         right.setVisible(false);
     }
 
+
+    /**
+     * loads the landing poster component
+     */
     public void loadLandingPoster() throws MoviesException {
         List<MovieSearchResponse> movieData = landingImageController.getProperMoviesForLandingPage();
         LandingPoster landingPoster = new LandingPoster(movieData, true, this.model);
@@ -305,23 +315,20 @@ public class AppController implements Initializable {
         landingPosterStackPane.getChildren().add(landingPoster);
     }
 
+    /**
+     * loads the reccomanded movies and move the scroll bar to the right
+     */
     public void toTheRightRecomended(ActionEvent event) {
         isRightRecommendedPressed = true;
         this.leftButtonRecomended.setVisible(true);
         loadImages(topRecomendedMoviesImagesControl, model, recommendedMoviesPostersParent);
-        double viewportWidth = this.scrollPaneRecomendedMovies.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneRecomendedMovies.getContent().prefWidth(-1); // -1 for the height value means compute the pref width for the current height
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.min(1.0, Math.max(0.0, this.scrollPaneRecomendedMovies.getHvalue() + moveNormalized));
-        this.scrollPaneRecomendedMovies.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(this.scrollPaneRecomendedMovies, true);
+        applySmoothEffect(null, newHvalue, this.scrollPaneRecomendedMovies);
     }
 
     public void toTheLeftRecomended(ActionEvent event) {
-        double viewportWidth = this.scrollPaneRecomendedMovies.getViewportBounds().getWidth();
-        double contentWidth = this.scrollPaneRecomendedMovies.getContent().prefWidth(-1);
-        double moveNormalized = viewportWidth / (contentWidth - viewportWidth);
-        double newHvalue = Math.max(0.0, this.scrollPaneRecomendedMovies.getHvalue() - moveNormalized);
-        this.scrollPaneRecomendedMovies.setHvalue(newHvalue);
+        double newHvalue = calculateScrollPaneHBarValue(this.scrollPaneRecomendedMovies, false);
+        applySmoothEffect(null, newHvalue, this.scrollPaneRecomendedMovies);
     }
 
 
@@ -339,6 +346,46 @@ public class AppController implements Initializable {
     @FXML
     private void hideRecommendedButtons(MouseEvent mouseEvent) {
         hideButtonsOnExit(leftButtonRecomended, rightButtonRecomended);
+    }
+
+    /**
+     * Apply a smooth transition animation to the scroll pane
+     *
+     * @param newHvalue represnts the new value where the scroll pane hbar needs to move
+     */
+    private void applySmoothEffect(Double millis, double newHvalue, ScrollPane scrollPane) {
+        double milliSeconds = 500;
+        if (millis != null) {
+            milliSeconds = millis;
+        }
+        Timeline timeline = new Timeline();
+        KeyValue keyValue = new KeyValue(scrollPane.hvalueProperty(), newHvalue);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(milliSeconds), keyValue);
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
+    }
+
+    private void setSpacingBetweenPosters(int spacingValue) {
+        recommendedMoviesPostersParent.setSpacing(spacingValue);
+        postersParent.setSpacing(spacingValue);
+        postersParentMoviesSeen.setSpacing(spacingValue);
+    }
+
+    private double calculateScrollPaneHBarValue(ScrollPane scrollPane, boolean moveRight) {
+        final double imageWidth = 250;
+        final double spacing = 15;
+        final double totalImageWidth = imageWidth + spacing;
+        double viewportWidth = scrollPane.getViewportBounds().getWidth();
+        double contentWidth = scrollPane.getContent().prefWidth(-1);
+        int imagesThatFitInView = (int) Math.floor(viewportWidth / totalImageWidth);
+        double moveNormalized = (double) imagesThatFitInView * totalImageWidth / (contentWidth - viewportWidth);
+        double newHvalue;
+        if (moveRight) {
+            newHvalue = Math.min(1.0, scrollPane.getHvalue() + moveNormalized);
+        } else {
+            newHvalue = Math.max(0.0, scrollPane.getHvalue() - moveNormalized);
+        }
+        return newHvalue;
     }
 
 }

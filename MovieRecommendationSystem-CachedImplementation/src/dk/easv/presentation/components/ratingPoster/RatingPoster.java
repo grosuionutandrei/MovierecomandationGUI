@@ -25,7 +25,6 @@ public class RatingPoster extends VBox {
         this.setAlignment(Pos.BOTTOM_CENTER);
         this.setVisible(true);
         hideRating(dimensions);
-
     }
 
     private void setStyleSettings() {
@@ -33,6 +32,7 @@ public class RatingPoster extends VBox {
         this.getStyleClass().add("customInfo");
     }
 
+    /**sets the dimensions off the rating poster to be half  hight off the poster */
     private void setPreMaxDimensions(Dimensions dimensions) {
         this.setPrefWidth(dimensions.getWidth());
         this.setPrefHeight(dimensions.getHeight()/2);

@@ -13,7 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class Search {
+public class SearchVideo {
     String baseUrl = "https://api.themoviedb.org/3/movie/";
     String endUrl = "/videos?language=en-US";
 

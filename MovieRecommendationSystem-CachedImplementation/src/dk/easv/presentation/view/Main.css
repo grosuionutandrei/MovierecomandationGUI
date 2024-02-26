@@ -18,3 +18,7 @@
     -fx-text-fill:#f06071;
     -fx-background-color:#141313;
 }
+
+.scrollPanePoster, .stackPanePosters{
+    -fx-background-color: #141313;
+}

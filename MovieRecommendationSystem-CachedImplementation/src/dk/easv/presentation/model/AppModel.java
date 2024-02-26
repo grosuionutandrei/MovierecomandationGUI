@@ -210,6 +210,14 @@ public class AppModel {
         this.obsLoggedInUser.set(obsLoggedInUser);
     }
 
+
+    /**get key for youtube video
+     * @param tmdbId the movie  database id required in order to retrieve the youtube key*/
+    public List<VideoData> getVideoData(int tmdbId){
+        return logic.getVideoData(tmdbId);
+    }
+
+
 }
 
 

@@ -1,19 +1,17 @@
 package dk.easv.logic;
-
 import dk.easv.dataaccess.DataAccessManager;
 import dk.easv.dataaccess.apiRequest.Search;
 import dk.easv.dataaccess.apiRequest.services.MultiSearch;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
-import dk.easv.dataaccess.httpRequest.ImageDao;
+import dk.easv.dataaccess.apiRequest.transcripts.VideoSearchResponse;
 import dk.easv.dataaccess.httpRequest.MediaDao;
+import dk.easv.dataaccess.httpRequest.SearchVideo;
 import dk.easv.entities.*;
 import dk.easv.exceptions.MoviesException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -22,9 +20,9 @@ public class LogicManager {
 
     DataAccessManager dataMgr = new DataAccessManager();
     Search search = new Search();
+    SearchVideo videoSearch = new SearchVideo();
     MediaDao mediaDao = new MediaDao();
     MultiSearch multiSearch = new MultiSearch();
-    private ImageDao imageDao = new ImageDao();
 
     public void reloadAllDataFromStorage() {
         dataMgr.updateCacheFromDisk();
@@ -162,22 +160,10 @@ public class LogicManager {
         return movieData;
     }
 
-    public List<MovieSearchResponse> movieSearchResponses(ObservableList<MovieData> movieData) {
-        List<MovieSearchResponse> movieSearchResponses = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            MultiSearch multiSearch = new MultiSearch();
-            MovieSearchResponse movieSearchResponse = null;
-            try {
-                movieSearchResponse = multiSearch.parseResponse(movieData.get(i).getTitle()).get(0);
-            } catch (Exception exception) {
-                continue;
-            }
-            if (!Objects.equals(movieSearchResponse.getTitle(), null) && !Objects.equals(movieSearchResponse.getBackdrop_path(), null)) {
-                movieSearchResponses.add(movieSearchResponse);
-            }
-        }
-        return movieSearchResponses;
+    /**get key for youtube video
+     * @param tmdbId the movie  database id required in order to retrieve the youtube key*/
+    public List<VideoData> getVideoData(int tmdbId){
+        return videoSearch.movieResponses(tmdbId);
     }
-
 
 }

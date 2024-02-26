@@ -1,7 +1,6 @@
 package dk.easv.presentation.components.LandingPoster;
-
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
-import dk.easv.dataaccess.httpRequest.ImageDao;
+import dk.easv.presentation.components.poster.data.ImageDao;
 import dk.easv.presentation.listeners.Resizable;
 import dk.easv.presentation.model.AppModel;
 import javafx.animation.FadeTransition;
@@ -270,14 +269,22 @@ public class LandingPoster extends StackPane implements Resizable {
             newHeight = Math.min(Poster_HEIGHT, Math.max(MIN_HEIGHT, newHeight));
             landingPosterDimensions.setWidth(newWidth);
             landingPosterDimensions.setHeight(newHeight);
-            for (ImageView image : imageViewList) {
-                image.setFitWidth(newWidth);
-                image.setFitHeight(newHeight);
-            }
-            for (Label label : titleLabels) {
-                double newValue = scaleWidthToRange(x, 300, Poster_WIDTH, 20, 50);
-                label.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, newValue));
-            }
+            resizeImages(newWidth, newHeight);
+            resizeTitleLabels(x);
+        }
+    }
+
+    private void resizeTitleLabels(double x) {
+        for (Label label : titleLabels) {
+            double newValue = scaleWidthToRange(x, 300, Poster_WIDTH, 20, 50);
+            label.setFont(Font.font("DejaVu Sans", FontWeight.BOLD, newValue));
+        }
+    }
+
+    private void resizeImages(double newWidth, double newHeight) {
+        for (ImageView image : imageViewList) {
+            image.setFitWidth(newWidth);
+            image.setFitHeight(newHeight);
         }
     }
 

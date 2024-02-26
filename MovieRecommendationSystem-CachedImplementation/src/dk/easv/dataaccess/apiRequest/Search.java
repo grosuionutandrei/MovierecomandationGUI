@@ -4,6 +4,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import dk.easv.dataaccess.ACCESS;
 import dk.easv.dataaccess.apiRequest.transcripts.MovieSearchResponse;
 import dk.easv.dataaccess.apiRequest.transcripts.SearchResponse;
+import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.exceptions.MoviesException;
 
 import java.io.IOException;
@@ -21,7 +22,6 @@ public class Search {
     String page = "&page=1";
 
     private SearchResponse searchRequest(String name,String year ) throws MoviesException {
-        System.out.println(baseUrl + name + endUrl + releaseYear + year +page);
         SearchResponse searchResponse;
         HttpRequest getRequest = null;
         try {
@@ -39,7 +39,6 @@ public class Search {
         } catch (IOException | InterruptedException e) {
             throw new MoviesException(e.getMessage());
         }
-        System.out.println(searchResponse.getTotal_results());
         return searchResponse;
     }
 
@@ -49,9 +48,8 @@ public class Search {
         List<?> map = searchResponse.getResults();
         LinkedTreeMap<String, Object> mapMovie = new LinkedTreeMap<>();
         return map.stream().map(gson::toJson).map(elem -> gson.fromJson(elem, MovieSearchResponse.class)).toList();
-
-//     return searchResponse.getResults().stream().map(elem->new Gson().fromJson((Reader) map,MovieSearchResponse.class)).toList();
     }
+
 
 
 }
