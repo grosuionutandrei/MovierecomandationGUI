@@ -2,6 +2,7 @@ package dk.easv.presentation.components.playwindow;
 
 import dk.easv.presentation.model.AppModel;
 import dk.easv.presentation.listeners.Displayable;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,6 +60,11 @@ public class PlayWindowController implements Initializable, Displayable {
         curentStage.show();
         curentStage = (Stage) videoPlayerContainer.getScene().getWindow();
         positionStageCenter(oldStage, curentStage);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500),embedContainer);
+        fadeTransition.setFromValue(0.5);
+        fadeTransition.setToValue(1);
+        fadeTransition.play();
+
     }
 
     private void setConatinersDimenssions() {

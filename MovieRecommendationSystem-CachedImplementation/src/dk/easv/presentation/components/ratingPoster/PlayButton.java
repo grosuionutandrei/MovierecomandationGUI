@@ -1,4 +1,5 @@
 package dk.easv.presentation.components.ratingPoster;
+
 import dk.easv.dataaccess.apiRequest.transcripts.VideoData;
 import dk.easv.exceptions.ExceptionHandler;
 import dk.easv.presentation.model.AppModel;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -60,7 +62,7 @@ public class PlayButton extends MFXButton {
                 modal.initModality(Modality.APPLICATION_MODAL);
                 modal.initStyle(StageStyle.UNDECORATED);
                 modal.setScene(scene);
-                playWindowController.getNewStage(scene,modal);
+                playWindowController.getNewStage(scene, modal);
             } catch (IOException ex) {
                 ex.getStackTrace();
                 ExceptionHandler.displayErrorAlert(ex.getMessage(), null);
@@ -68,7 +70,9 @@ public class PlayButton extends MFXButton {
         });
     }
 
-
+    public void cleanUp() {
+        this.setOnMouseClicked(null);
+    }
 }
 
 

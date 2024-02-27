@@ -5,9 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ImageDao {
     private SimpleObjectProperty<Image> imageProperty ;
     private String noImageUrl = "file:///D:///computer_science/sco/compolsory/movie_recomandation_gui/MovieRecommendationSystem-CachedImplementation/data/placeholdercar.png";

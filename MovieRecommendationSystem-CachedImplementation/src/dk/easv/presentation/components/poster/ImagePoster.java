@@ -1,4 +1,5 @@
 package dk.easv.presentation.components.poster;
+
 import dk.easv.presentation.components.poster.data.ImageDao;
 import dk.easv.entities.MovieData;
 import dk.easv.presentation.listeners.Resizable;
@@ -29,6 +30,7 @@ public class ImagePoster extends VBox implements Resizable {
     private final StackPane posterStack;
     private final MovieData movieData;
     private final AppModel model;
+    private PauseTransition pauseTransition;
 
     public ImagePoster(MovieData movieData, AppModel model) {
         super();
@@ -46,7 +48,7 @@ public class ImagePoster extends VBox implements Resizable {
         setOnHover();
         this.getChildren().add(posterStack);
         bindSizeToDimensions();
-        this.model=model;
+        this.model = model;
         VBox.setVgrow(this, Priority.ALWAYS);
     }
 
@@ -74,9 +76,12 @@ public class ImagePoster extends VBox implements Resizable {
         this.imageView.setPreserveRatio(false);
     }
 
-/**Resize the images according to the viePort sizes
- * @param x width off the viewport
- * @param y height off the viewport*/
+    /**
+     * Resize the images according to the viePort sizes
+     *
+     * @param x width off the viewport
+     * @param y height off the viewport
+     */
     @Override
     public void resizeImage(double x, double y) {
         if (x >= 300) {
@@ -92,16 +97,18 @@ public class ImagePoster extends VBox implements Resizable {
     }
 
 
-    /**Listener for mouse hover to display the title and ratting off the movies */
+    /**
+     * Listener for mouse hover to display the title and ratting off the movies
+     */
     private void setOnHover() {
-        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(0.5));
+        pauseTransition = new PauseTransition(Duration.seconds(0.5));
         this.posterStack.setOnMouseEntered(e -> {
             pauseTransition.playFromStart();
         });
 
         pauseTransition.setOnFinished(event -> {
             model.setSelectedMovie(movieData);
-            this.ratingContainer = new RatingPoster(model,this.dimensions);
+            this.ratingContainer = new RatingPoster(model, this.dimensions);
             this.posterStack.getChildren().add(ratingContainer);
             StackPane.setAlignment(ratingContainer, Pos.BOTTOM_CENTER);
         });
@@ -112,4 +119,23 @@ public class ImagePoster extends VBox implements Resizable {
         });
     }
 
+
+    public void cleanup() {
+        if (this.imageView != null) {
+            this.imageView.imageProperty().unbind();
+        }
+        if (this.posterStack != null) {
+            this.posterStack.setOnMouseEntered(null);
+            this.posterStack.setOnMouseExited(null);
+        }
+        if (pauseTransition != null) {
+            pauseTransition.stop();
+        }
+        if (this.ratingContainer != null) {
+            this.ratingContainer.cleanup();
+            this.posterStack.getChildren().remove(this.ratingContainer);
+            this.ratingContainer = null;
+        }
+        this.getChildren().clear();
+    }
 }

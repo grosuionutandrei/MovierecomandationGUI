@@ -27,12 +27,7 @@ public class DataAccessManager {
     private HashMap<Integer, MovieData> movies = new HashMap<>();
     //private HashMap<Integer,MovieData> moviesWithUrl =  new HashMap<>();
     private List<Rating> ratings = new ArrayList<>();
-    //private Map<Integer,MovieData> moviesData = new HashMap<>();
 
-//    public Map<Integer, MovieData> getMoviesData() {
-//        loadAllMovieData();
-//        return moviesData;
-//    }
 
     // Loads all data from disk and stores in memory
     // For performance, data is only updated if updateCacheFromDisk() is called

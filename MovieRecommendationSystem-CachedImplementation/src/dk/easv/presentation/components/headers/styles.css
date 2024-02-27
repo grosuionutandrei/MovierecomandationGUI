@@ -19,7 +19,7 @@
 /* Thumb (the draggable part of the scroll bar) */
 .scroll-pane .scroll-bar .thumb {
     -fx-background-color: #7c7979; /* Set a grayish color for the thumb */
-    -fx-background-radius: 5px; /* Set the corner radius for a rounded look */
+    /*-fx-background-radius: 5px; !* Set the corner radius for a rounded look *!*/
 }
 
 /* Increase and Decrease buttons (optional) */

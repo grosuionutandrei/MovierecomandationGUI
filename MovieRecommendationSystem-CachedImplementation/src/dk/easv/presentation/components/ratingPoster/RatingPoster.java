@@ -13,13 +13,16 @@ public class RatingPoster extends VBox {
     private HBox playControl;
     @FXML
     private HBox grades;
+    @FXML
+    private PlayButton playButton;
 
     public RatingPoster( AppModel model, Dimensions dimensions) {
         this.movieTitle = new Label(model.getSelectedMovie().getTitle());
         this.grades = new StarsGrades(model.getSelectedMovie().getAverageRating(),this);
         this.playControl= new HBox();
+        this.playButton =  new PlayButton(model);
         this.playControl.setAlignment(Pos.CENTER);
-        playControl.getChildren().add(new PlayButton(model));
+        playControl.getChildren().add(this.playButton);
         setStyleSettings();
         setPreMaxDimensions(dimensions);
         this.setAlignment(Pos.BOTTOM_CENTER);
@@ -48,5 +51,11 @@ public class RatingPoster extends VBox {
         }else{
             this.getChildren().addAll(movieTitle, playControl);
         }
+    }
+
+    public void cleanup() {
+        this.grades=null;
+        this.playButton.cleanUp();
+        this.playButton=null;
     }
 }
